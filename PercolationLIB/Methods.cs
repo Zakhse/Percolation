@@ -26,33 +26,35 @@ namespace PercolationLIB
 			return enteredNumber;
 		}
 
-		public static void PrintPercolationMatrix(PercolationCell[,] matrix)
+		public static string StringPercolationMatrix(PercolationCell[,] matrix)
 		{
-			for (int i = 0; i < matrix.GetLength(1); i++)
+			string str = "";
+			/*for (int i = 0; i < matrix.GetLength(1); i++)
 			{
-				Console.Write("_");
-			}
-			Console.WriteLine();
+				str += "_";
+			}*/
+			str += "\n";
 			for (int i = 0; i < matrix.GetLength(0); i++)
 			{
 				for (int j = 0; j < matrix.GetLength(1); j++)
 				{
 					if (matrix[i, j].Filled)
 					{
-						Console.Write("{0}\t", matrix[i, j].Group);
+						str += String.Format("{0}\t", matrix[i, j].Group);
 					}
 					else
 					{
-						Console.Write("--\t");
+						str += String.Format("--\t");
 					}
 				}
-				Console.WriteLine();
+				str += "\n";
 			}
-			for (int i = 0; i < matrix.GetLength(1); i++)
+			/*for (int i = 0; i < matrix.GetLength(1); i++)
 			{
-				Console.Write("_");
+				str += "_";
 			}
-			Console.WriteLine();
+			Console.WriteLine();*/
+			return str;
 		}
 
 		private static Random rnd = new Random();

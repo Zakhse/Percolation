@@ -36,15 +36,22 @@
 			this.heightOfMatrix_label = new System.Windows.Forms.Label();
 			this.heightOfMatrix_numericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.experimantalMode_checkBox = new System.Windows.Forms.CheckBox();
-			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+			this.pages_tabControl = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.log_tabpage = new System.Windows.Forms.TabPage();
+			this.log_richTextBox = new System.Windows.Forms.RichTextBox();
+			this.start_button = new System.Windows.Forms.Button();
 			this.options_groupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.probability_trackBar)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.widthOfMatrix_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.heightOfMatrix_numericUpDown)).BeginInit();
+			this.pages_tabControl.SuspendLayout();
+			this.log_tabpage.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// options_groupBox
 			// 
+			this.options_groupBox.Controls.Add(this.start_button);
 			this.options_groupBox.Controls.Add(this.probability_trackBar);
 			this.options_groupBox.Controls.Add(this.probability_label);
 			this.options_groupBox.Controls.Add(this.widthOfMatrix_numericUpDown);
@@ -52,9 +59,9 @@
 			this.options_groupBox.Controls.Add(this.heightOfMatrix_label);
 			this.options_groupBox.Controls.Add(this.heightOfMatrix_numericUpDown);
 			this.options_groupBox.Controls.Add(this.experimantalMode_checkBox);
-			this.options_groupBox.Location = new System.Drawing.Point(17, 20);
+			this.options_groupBox.Location = new System.Drawing.Point(17, 12);
 			this.options_groupBox.Name = "options_groupBox";
-			this.options_groupBox.Size = new System.Drawing.Size(230, 353);
+			this.options_groupBox.Size = new System.Drawing.Size(230, 361);
 			this.options_groupBox.TabIndex = 0;
 			this.options_groupBox.TabStop = false;
 			this.options_groupBox.Text = "Options";
@@ -156,20 +163,67 @@
 			this.experimantalMode_checkBox.UseVisualStyleBackColor = true;
 			this.experimantalMode_checkBox.CheckedChanged += new System.EventHandler(this.experimantalMode_checkBox_CheckedChanged);
 			// 
-			// richTextBox1
+			// pages_tabControl
 			// 
-			this.richTextBox1.Location = new System.Drawing.Point(263, 20);
-			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(402, 353);
-			this.richTextBox1.TabIndex = 1;
-			this.richTextBox1.Text = "";
+			this.pages_tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.pages_tabControl.Controls.Add(this.tabPage1);
+			this.pages_tabControl.Controls.Add(this.log_tabpage);
+			this.pages_tabControl.Location = new System.Drawing.Point(253, 12);
+			this.pages_tabControl.Name = "pages_tabControl";
+			this.pages_tabControl.SelectedIndex = 0;
+			this.pages_tabControl.Size = new System.Drawing.Size(412, 361);
+			this.pages_tabControl.TabIndex = 1;
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(404, 335);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// log_tabpage
+			// 
+			this.log_tabpage.Controls.Add(this.log_richTextBox);
+			this.log_tabpage.Location = new System.Drawing.Point(4, 22);
+			this.log_tabpage.Name = "log_tabpage";
+			this.log_tabpage.Padding = new System.Windows.Forms.Padding(3);
+			this.log_tabpage.Size = new System.Drawing.Size(404, 335);
+			this.log_tabpage.TabIndex = 1;
+			this.log_tabpage.Text = "Log";
+			this.log_tabpage.UseVisualStyleBackColor = true;
+			// 
+			// log_richTextBox
+			// 
+			this.log_richTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.log_richTextBox.Location = new System.Drawing.Point(6, 6);
+			this.log_richTextBox.Name = "log_richTextBox";
+			this.log_richTextBox.Size = new System.Drawing.Size(392, 323);
+			this.log_richTextBox.TabIndex = 0;
+			this.log_richTextBox.Text = "";
+			// 
+			// start_button
+			// 
+			this.start_button.Location = new System.Drawing.Point(38, 63);
+			this.start_button.Name = "start_button";
+			this.start_button.Size = new System.Drawing.Size(124, 40);
+			this.start_button.TabIndex = 7;
+			this.start_button.Text = "Start!";
+			this.start_button.UseVisualStyleBackColor = true;
+			this.start_button.Click += new System.EventHandler(this.start_button_Click);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(677, 385);
-			this.Controls.Add(this.richTextBox1);
+			this.Controls.Add(this.pages_tabControl);
 			this.Controls.Add(this.options_groupBox);
 			this.Name = "Form1";
 			this.Text = "Form1";
@@ -178,6 +232,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.probability_trackBar)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.widthOfMatrix_numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.heightOfMatrix_numericUpDown)).EndInit();
+			this.pages_tabControl.ResumeLayout(false);
+			this.log_tabpage.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -192,7 +248,11 @@
 		private System.Windows.Forms.NumericUpDown widthOfMatrix_numericUpDown;
 		private System.Windows.Forms.TrackBar probability_trackBar;
 		private System.Windows.Forms.Label probability_label;
-		private System.Windows.Forms.RichTextBox richTextBox1;
+		private System.Windows.Forms.TabControl pages_tabControl;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage log_tabpage;
+		private System.Windows.Forms.RichTextBox log_richTextBox;
+		private System.Windows.Forms.Button start_button;
 	}
 }
 
