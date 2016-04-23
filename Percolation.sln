@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Percolation", "Percolation\Percolation.csproj", "{68269C50-F561-42B9-968B-77C0AA6DEC48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PercolationLIB", "PercolationLIB\PercolationLIB.csproj", "{BEFD45AA-A33C-4776-B21E-67209760413A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PercolationGUI", "PercolationGUI\PercolationGUI.csproj", "{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68269C50-F561-42B9-968B-77C0AA6DEC48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68269C50-F561-42B9-968B-77C0AA6DEC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68269C50-F561-42B9-968B-77C0AA6DEC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68269C50-F561-42B9-968B-77C0AA6DEC48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEFD45AA-A33C-4776-B21E-67209760413A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEFD45AA-A33C-4776-B21E-67209760413A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEFD45AA-A33C-4776-B21E-67209760413A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEFD45AA-A33C-4776-B21E-67209760413A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
