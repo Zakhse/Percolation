@@ -79,7 +79,7 @@
 			// 
 			// widthOfMatrix_numericUpDown
 			// 
-			this.widthOfMatrix_numericUpDown.Location = new System.Drawing.Point(20, 286);
+			this.widthOfMatrix_numericUpDown.Location = new System.Drawing.Point(109, 237);
 			this.widthOfMatrix_numericUpDown.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -105,7 +105,7 @@
 			// widthOfMatrix_label
 			// 
 			this.widthOfMatrix_label.AutoSize = true;
-			this.widthOfMatrix_label.Location = new System.Drawing.Point(6, 270);
+			this.widthOfMatrix_label.Location = new System.Drawing.Point(95, 221);
 			this.widthOfMatrix_label.Name = "widthOfMatrix_label";
 			this.widthOfMatrix_label.Size = new System.Drawing.Size(80, 13);
 			this.widthOfMatrix_label.TabIndex = 3;
