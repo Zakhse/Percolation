@@ -29,7 +29,12 @@
 		private void InitializeComponent()
 		{
 			this.options_groupBox = new System.Windows.Forms.GroupBox();
-			this.probability_trackBar = new System.Windows.Forms.TrackBar();
+			this.numberOfExperiments_label = new System.Windows.Forms.Label();
+			this.numberOfExperiments_numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.probabilityStep_label = new System.Windows.Forms.Label();
+			this.probability_numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.probabilityStep_numericUpDown = new System.Windows.Forms.NumericUpDown();
+			this.start_button = new System.Windows.Forms.Button();
 			this.probability_label = new System.Windows.Forms.Label();
 			this.widthOfMatrix_numericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.widthOfMatrix_label = new System.Windows.Forms.Label();
@@ -40,9 +45,10 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.log_tabpage = new System.Windows.Forms.TabPage();
 			this.log_richTextBox = new System.Windows.Forms.RichTextBox();
-			this.start_button = new System.Windows.Forms.Button();
 			this.options_groupBox.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.probability_trackBar)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.probability_numericUpDown)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.probabilityStep_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.widthOfMatrix_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.heightOfMatrix_numericUpDown)).BeginInit();
 			this.pages_tabControl.SuspendLayout();
@@ -51,8 +57,12 @@
 			// 
 			// options_groupBox
 			// 
+			this.options_groupBox.Controls.Add(this.numberOfExperiments_label);
+			this.options_groupBox.Controls.Add(this.numberOfExperiments_numericUpDown);
+			this.options_groupBox.Controls.Add(this.probabilityStep_label);
+			this.options_groupBox.Controls.Add(this.probability_numericUpDown);
+			this.options_groupBox.Controls.Add(this.probabilityStep_numericUpDown);
 			this.options_groupBox.Controls.Add(this.start_button);
-			this.options_groupBox.Controls.Add(this.probability_trackBar);
 			this.options_groupBox.Controls.Add(this.probability_label);
 			this.options_groupBox.Controls.Add(this.widthOfMatrix_numericUpDown);
 			this.options_groupBox.Controls.Add(this.widthOfMatrix_label);
@@ -66,19 +76,111 @@
 			this.options_groupBox.TabStop = false;
 			this.options_groupBox.Text = "Options";
 			// 
-			// probability_trackBar
+			// numberOfExperiments_label
 			// 
-			this.probability_trackBar.Location = new System.Drawing.Point(0, 173);
-			this.probability_trackBar.Maximum = 100;
-			this.probability_trackBar.Name = "probability_trackBar";
-			this.probability_trackBar.Size = new System.Drawing.Size(122, 45);
-			this.probability_trackBar.TabIndex = 6;
-			this.probability_trackBar.Scroll += new System.EventHandler(this.probability_trackBar_Scroll);
+			this.numberOfExperiments_label.AutoSize = true;
+			this.numberOfExperiments_label.Location = new System.Drawing.Point(6, 279);
+			this.numberOfExperiments_label.Name = "numberOfExperiments_label";
+			this.numberOfExperiments_label.Size = new System.Drawing.Size(78, 26);
+			this.numberOfExperiments_label.TabIndex = 12;
+			this.numberOfExperiments_label.Text = "Number\nof experiments:";
+			this.numberOfExperiments_label.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			// 
+			// numberOfExperiments_numericUpDown
+			// 
+			this.numberOfExperiments_numericUpDown.Location = new System.Drawing.Point(98, 285);
+			this.numberOfExperiments_numericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.numberOfExperiments_numericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numberOfExperiments_numericUpDown.Name = "numberOfExperiments_numericUpDown";
+			this.numberOfExperiments_numericUpDown.Size = new System.Drawing.Size(120, 20);
+			this.numberOfExperiments_numericUpDown.TabIndex = 11;
+			this.numberOfExperiments_numericUpDown.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			this.numberOfExperiments_numericUpDown.ValueChanged += new System.EventHandler(this.numberOfExperiments_numericUpDown_ValueChanged);
+			// 
+			// probabilityStep_label
+			// 
+			this.probabilityStep_label.AutoSize = true;
+			this.probabilityStep_label.Location = new System.Drawing.Point(6, 243);
+			this.probabilityStep_label.Name = "probabilityStep_label";
+			this.probabilityStep_label.Size = new System.Drawing.Size(81, 13);
+			this.probabilityStep_label.TabIndex = 10;
+			this.probabilityStep_label.Text = "Probability step:";
+			// 
+			// probability_numericUpDown
+			// 
+			this.probability_numericUpDown.DecimalPlaces = 3;
+			this.probability_numericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+			this.probability_numericUpDown.Location = new System.Drawing.Point(98, 157);
+			this.probability_numericUpDown.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.probability_numericUpDown.Name = "probability_numericUpDown";
+			this.probability_numericUpDown.Size = new System.Drawing.Size(120, 20);
+			this.probability_numericUpDown.TabIndex = 9;
+			this.probability_numericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+			this.probability_numericUpDown.ValueChanged += new System.EventHandler(this.probability_numericUpDown_ValueChanged);
+			// 
+			// probabilityStep_numericUpDown
+			// 
+			this.probabilityStep_numericUpDown.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.probabilityStep_numericUpDown.DecimalPlaces = 3;
+			this.probabilityStep_numericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+			this.probabilityStep_numericUpDown.Location = new System.Drawing.Point(98, 241);
+			this.probabilityStep_numericUpDown.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+			this.probabilityStep_numericUpDown.Name = "probabilityStep_numericUpDown";
+			this.probabilityStep_numericUpDown.Size = new System.Drawing.Size(120, 20);
+			this.probabilityStep_numericUpDown.TabIndex = 8;
+			this.probabilityStep_numericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+			this.probabilityStep_numericUpDown.ValueChanged += new System.EventHandler(this.probabilityStep_numericUpDown_ValueChanged);
+			// 
+			// start_button
+			// 
+			this.start_button.Location = new System.Drawing.Point(38, 63);
+			this.start_button.Name = "start_button";
+			this.start_button.Size = new System.Drawing.Size(124, 40);
+			this.start_button.TabIndex = 7;
+			this.start_button.Text = "Start!";
+			this.start_button.UseVisualStyleBackColor = true;
+			this.start_button.Click += new System.EventHandler(this.start_button_Click);
 			// 
 			// probability_label
 			// 
 			this.probability_label.AutoSize = true;
-			this.probability_label.Location = new System.Drawing.Point(6, 157);
+			this.probability_label.Location = new System.Drawing.Point(6, 159);
 			this.probability_label.Name = "probability_label";
 			this.probability_label.Size = new System.Drawing.Size(58, 13);
 			this.probability_label.TabIndex = 5;
@@ -86,7 +188,7 @@
 			// 
 			// widthOfMatrix_numericUpDown
 			// 
-			this.widthOfMatrix_numericUpDown.Location = new System.Drawing.Point(109, 237);
+			this.widthOfMatrix_numericUpDown.Location = new System.Drawing.Point(112, 209);
 			this.widthOfMatrix_numericUpDown.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -112,7 +214,7 @@
 			// widthOfMatrix_label
 			// 
 			this.widthOfMatrix_label.AutoSize = true;
-			this.widthOfMatrix_label.Location = new System.Drawing.Point(95, 221);
+			this.widthOfMatrix_label.Location = new System.Drawing.Point(95, 193);
 			this.widthOfMatrix_label.Name = "widthOfMatrix_label";
 			this.widthOfMatrix_label.Size = new System.Drawing.Size(80, 13);
 			this.widthOfMatrix_label.TabIndex = 3;
@@ -121,7 +223,7 @@
 			// heightOfMatrix_label
 			// 
 			this.heightOfMatrix_label.AutoSize = true;
-			this.heightOfMatrix_label.Location = new System.Drawing.Point(6, 221);
+			this.heightOfMatrix_label.Location = new System.Drawing.Point(6, 193);
 			this.heightOfMatrix_label.Name = "heightOfMatrix_label";
 			this.heightOfMatrix_label.Size = new System.Drawing.Size(83, 13);
 			this.heightOfMatrix_label.TabIndex = 2;
@@ -129,7 +231,7 @@
 			// 
 			// heightOfMatrix_numericUpDown
 			// 
-			this.heightOfMatrix_numericUpDown.Location = new System.Drawing.Point(20, 237);
+			this.heightOfMatrix_numericUpDown.Location = new System.Drawing.Point(20, 209);
 			this.heightOfMatrix_numericUpDown.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -207,16 +309,8 @@
 			this.log_richTextBox.Size = new System.Drawing.Size(392, 323);
 			this.log_richTextBox.TabIndex = 0;
 			this.log_richTextBox.Text = "";
-			// 
-			// start_button
-			// 
-			this.start_button.Location = new System.Drawing.Point(38, 63);
-			this.start_button.Name = "start_button";
-			this.start_button.Size = new System.Drawing.Size(124, 40);
-			this.start_button.TabIndex = 7;
-			this.start_button.Text = "Start!";
-			this.start_button.UseVisualStyleBackColor = true;
-			this.start_button.Click += new System.EventHandler(this.start_button_Click);
+			this.log_richTextBox.WordWrap = false;
+			this.log_richTextBox.TextChanged += new System.EventHandler(this.log_richTextBox_TextChanged);
 			// 
 			// Form1
 			// 
@@ -229,7 +323,9 @@
 			this.Text = "Form1";
 			this.options_groupBox.ResumeLayout(false);
 			this.options_groupBox.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.probability_trackBar)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.probability_numericUpDown)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.probabilityStep_numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.widthOfMatrix_numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.heightOfMatrix_numericUpDown)).EndInit();
 			this.pages_tabControl.ResumeLayout(false);
@@ -246,13 +342,17 @@
 		private System.Windows.Forms.Label heightOfMatrix_label;
 		private System.Windows.Forms.Label widthOfMatrix_label;
 		private System.Windows.Forms.NumericUpDown widthOfMatrix_numericUpDown;
-		private System.Windows.Forms.TrackBar probability_trackBar;
 		private System.Windows.Forms.Label probability_label;
 		private System.Windows.Forms.TabControl pages_tabControl;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage log_tabpage;
 		private System.Windows.Forms.RichTextBox log_richTextBox;
 		private System.Windows.Forms.Button start_button;
+		private System.Windows.Forms.NumericUpDown probabilityStep_numericUpDown;
+		private System.Windows.Forms.NumericUpDown probability_numericUpDown;
+		private System.Windows.Forms.Label probabilityStep_label;
+		private System.Windows.Forms.Label numberOfExperiments_label;
+		private System.Windows.Forms.NumericUpDown numberOfExperiments_numericUpDown;
 	}
 }
 
