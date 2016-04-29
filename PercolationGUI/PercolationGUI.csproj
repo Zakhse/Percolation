@@ -55,6 +55,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IniSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -83,10 +84,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ini_Settings\Ini_Settings.csproj">
-      <Project>{31c573c7-2202-46ce-b8ad-605742fae390}</Project>
-      <Name>Ini_Settings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PercolationLIB\PercolationLIB.csproj">
       <Project>{befd45aa-a33c-4776-b21e-67209760413a}</Project>
       <Name>PercolationLIB</Name>

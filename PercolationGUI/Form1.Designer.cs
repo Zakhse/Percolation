@@ -106,7 +106,7 @@
 			this.numberOfExperiments_numericUpDown.Size = new System.Drawing.Size(120, 20);
 			this.numberOfExperiments_numericUpDown.TabIndex = 11;
 			this.numberOfExperiments_numericUpDown.Value = new decimal(new int[] {
-            100,
+            1,
             0,
             0,
             0});
@@ -139,10 +139,10 @@
 			this.probability_numericUpDown.Size = new System.Drawing.Size(120, 20);
 			this.probability_numericUpDown.TabIndex = 9;
 			this.probability_numericUpDown.Value = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
-            196608});
+            65536});
 			this.probability_numericUpDown.ValueChanged += new System.EventHandler(this.probability_numericUpDown_ValueChanged);
 			// 
 			// probabilityStep_numericUpDown
@@ -164,10 +164,10 @@
 			this.probabilityStep_numericUpDown.Size = new System.Drawing.Size(120, 20);
 			this.probabilityStep_numericUpDown.TabIndex = 8;
 			this.probabilityStep_numericUpDown.Value = new decimal(new int[] {
-            1,
+            25,
             0,
             0,
-            196608});
+            131072});
 			this.probabilityStep_numericUpDown.ValueChanged += new System.EventHandler(this.probabilityStep_numericUpDown_ValueChanged);
 			// 
 			// start_button
@@ -208,7 +208,7 @@
 			this.widthOfMatrix_numericUpDown.Size = new System.Drawing.Size(50, 20);
 			this.widthOfMatrix_numericUpDown.TabIndex = 4;
 			this.widthOfMatrix_numericUpDown.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -251,7 +251,7 @@
 			this.heightOfMatrix_numericUpDown.Size = new System.Drawing.Size(50, 20);
 			this.heightOfMatrix_numericUpDown.TabIndex = 1;
 			this.heightOfMatrix_numericUpDown.Value = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -260,6 +260,8 @@
 			// experimantalMode_checkBox
 			// 
 			this.experimantalMode_checkBox.AutoSize = true;
+			this.experimantalMode_checkBox.Checked = true;
+			this.experimantalMode_checkBox.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.experimantalMode_checkBox.Location = new System.Drawing.Point(6, 321);
 			this.experimantalMode_checkBox.Name = "experimantalMode_checkBox";
 			this.experimantalMode_checkBox.Size = new System.Drawing.Size(116, 17);
@@ -308,6 +310,7 @@
 			this.graph_zedGraphControl.ScrollMinY2 = 0D;
 			this.graph_zedGraphControl.Size = new System.Drawing.Size(398, 329);
 			this.graph_zedGraphControl.TabIndex = 2;
+			this.graph_zedGraphControl.ZoomEvent += new ZedGraph.ZedGraphControl.ZoomEventHandler(this.graph_zedGraphControl_ZoomEvent);
 			// 
 			// log_tabpage
 			// 
