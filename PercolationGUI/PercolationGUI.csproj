@@ -83,6 +83,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ini_Settings\Ini_Settings.csproj">
+      <Project>{31c573c7-2202-46ce-b8ad-605742fae390}</Project>
+      <Name>Ini_Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PercolationLIB\PercolationLIB.csproj">
       <Project>{befd45aa-a33c-4776-b21e-67209760413a}</Project>
       <Name>PercolationLIB</Name>

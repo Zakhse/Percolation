@@ -44,9 +44,9 @@
 			this.experimantalMode_checkBox = new System.Windows.Forms.CheckBox();
 			this.pages_tabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.graph_zedGraphControl = new ZedGraph.ZedGraphControl();
 			this.log_tabpage = new System.Windows.Forms.TabPage();
 			this.log_richTextBox = new System.Windows.Forms.RichTextBox();
-			this.graph_zedGraphControl = new ZedGraph.ZedGraphControl();
 			this.options_groupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.probability_numericUpDown)).BeginInit();
@@ -289,8 +289,25 @@
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage1.Size = new System.Drawing.Size(404, 335);
 			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.Text = "Graph";
 			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// graph_zedGraphControl
+			// 
+			this.graph_zedGraphControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.graph_zedGraphControl.Location = new System.Drawing.Point(3, 3);
+			this.graph_zedGraphControl.Name = "graph_zedGraphControl";
+			this.graph_zedGraphControl.ScrollGrace = 0D;
+			this.graph_zedGraphControl.ScrollMaxX = 1D;
+			this.graph_zedGraphControl.ScrollMaxY = 1D;
+			this.graph_zedGraphControl.ScrollMaxY2 = 0D;
+			this.graph_zedGraphControl.ScrollMinX = 0D;
+			this.graph_zedGraphControl.ScrollMinY = 0D;
+			this.graph_zedGraphControl.ScrollMinY2 = 0D;
+			this.graph_zedGraphControl.Size = new System.Drawing.Size(398, 329);
+			this.graph_zedGraphControl.TabIndex = 2;
 			// 
 			// log_tabpage
 			// 
@@ -315,23 +332,6 @@
 			this.log_richTextBox.Text = "";
 			this.log_richTextBox.WordWrap = false;
 			this.log_richTextBox.TextChanged += new System.EventHandler(this.log_richTextBox_TextChanged);
-			// 
-			// graph_zedGraphControl
-			// 
-			this.graph_zedGraphControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.graph_zedGraphControl.Location = new System.Drawing.Point(3, 3);
-			this.graph_zedGraphControl.Name = "graph_zedGraphControl";
-			this.graph_zedGraphControl.ScrollGrace = 0D;
-			this.graph_zedGraphControl.ScrollMaxX = 1D;
-			this.graph_zedGraphControl.ScrollMaxY = 1D;
-			this.graph_zedGraphControl.ScrollMaxY2 = 0D;
-			this.graph_zedGraphControl.ScrollMinX = 0D;
-			this.graph_zedGraphControl.ScrollMinY = 0D;
-			this.graph_zedGraphControl.ScrollMinY2 = 0D;
-			this.graph_zedGraphControl.Size = new System.Drawing.Size(398, 329);
-			this.graph_zedGraphControl.TabIndex = 2;
 			// 
 			// Form1
 			// 

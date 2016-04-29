@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PercolationLIB", "Percolati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PercolationGUI", "PercolationGUI\PercolationGUI.csproj", "{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ini_Settings", "Ini_Settings\Ini_Settings.csproj", "{31C573C7-2202-46CE-B8AD-605742FAE390}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31C573C7-2202-46CE-B8AD-605742FAE390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C573C7-2202-46CE-B8AD-605742FAE390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C573C7-2202-46CE-B8AD-605742FAE390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C573C7-2202-46CE-B8AD-605742FAE390}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
