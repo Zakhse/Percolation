@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.options_groupBox = new System.Windows.Forms.GroupBox();
 			this.numberOfExperiments_label = new System.Windows.Forms.Label();
 			this.numberOfExperiments_numericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -45,6 +46,7 @@
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.log_tabpage = new System.Windows.Forms.TabPage();
 			this.log_richTextBox = new System.Windows.Forms.RichTextBox();
+			this.graph_zedGraphControl = new ZedGraph.ZedGraphControl();
 			this.options_groupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.probability_numericUpDown)).BeginInit();
@@ -52,6 +54,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.widthOfMatrix_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.heightOfMatrix_numericUpDown)).BeginInit();
 			this.pages_tabControl.SuspendLayout();
+			this.tabPage1.SuspendLayout();
 			this.log_tabpage.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -280,6 +283,7 @@
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.graph_zedGraphControl);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -312,6 +316,23 @@
 			this.log_richTextBox.WordWrap = false;
 			this.log_richTextBox.TextChanged += new System.EventHandler(this.log_richTextBox_TextChanged);
 			// 
+			// graph_zedGraphControl
+			// 
+			this.graph_zedGraphControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.graph_zedGraphControl.Location = new System.Drawing.Point(3, 3);
+			this.graph_zedGraphControl.Name = "graph_zedGraphControl";
+			this.graph_zedGraphControl.ScrollGrace = 0D;
+			this.graph_zedGraphControl.ScrollMaxX = 1D;
+			this.graph_zedGraphControl.ScrollMaxY = 1D;
+			this.graph_zedGraphControl.ScrollMaxY2 = 0D;
+			this.graph_zedGraphControl.ScrollMinX = 0D;
+			this.graph_zedGraphControl.ScrollMinY = 0D;
+			this.graph_zedGraphControl.ScrollMinY2 = 0D;
+			this.graph_zedGraphControl.Size = new System.Drawing.Size(398, 329);
+			this.graph_zedGraphControl.TabIndex = 2;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -329,6 +350,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.widthOfMatrix_numericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.heightOfMatrix_numericUpDown)).EndInit();
 			this.pages_tabControl.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
 			this.log_tabpage.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -353,6 +375,7 @@
 		private System.Windows.Forms.Label probabilityStep_label;
 		private System.Windows.Forms.Label numberOfExperiments_label;
 		private System.Windows.Forms.NumericUpDown numberOfExperiments_numericUpDown;
+		private ZedGraph.ZedGraphControl graph_zedGraphControl;
 	}
 }
 

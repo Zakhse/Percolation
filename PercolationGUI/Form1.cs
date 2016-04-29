@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
 using PercolationLIB;
+using ZedGraph;
 
 
 namespace PercolationGUI
@@ -25,7 +26,10 @@ namespace PercolationGUI
 		decimal decProbabilityMax = 1;
 		decimal decProbabilityStep;
 		int numberOfExperiments;//per each probability
-		List<Point> points = new List<Point>();
+		PointPairList points = new PointPairList();
+
+		GraphPane pane;
+		LineItem pointsCurve;
 
 		static BackgroundWorker bw = new BackgroundWorker();
 		public Form1()
@@ -35,6 +39,21 @@ namespace PercolationGUI
 			RefreshData(true, true, true, true, true);
 			RefreshGUI();
 
+			pane = graph_zedGraphControl.GraphPane;
+			pane.Title.Text = "Graph";
+			pane.XAxis.Scale.Min = 0.0;
+			pane.XAxis.Scale.Max = 1.0;
+			pane.YAxis.Scale.Min = 0.0;
+			pane.YAxis.Scale.Max = 1.0;
+			graph_zedGraphControl.AxisChange();
+			pane.XAxis.Title.Text = "Probability of filling the lattice";
+			pane.YAxis.Title.Text = "Probability of the percolation";
+			pointsCurve= pane.AddCurve("Scatter",points,Color.Blue,SymbolType.Circle);
+			//pointsCurve.Line.IsVisible = false;
+			pointsCurve.Symbol.Fill.Color = Color.Blue;
+			pointsCurve.Symbol.Fill.Type = FillType.Solid;
+			pointsCurve.Symbol.Size = 5;
+			//Code for graph's visualization
 		}//Form1
 
 		private void RefreshGUI()
@@ -158,7 +177,13 @@ namespace PercolationGUI
 					   log_richTextBox.Text += str;
 				   }),
 					str);
+				AddPointToGraph((double)probability, (double)percolationProbability);
 			}
+		}//Method for experimental mode to work in background
+		private void AddPointToGraph(double x, double y)
+		{
+			points.Add(x, y);
+			graph_zedGraphControl.Invalidate();
 		}
 	}
 
