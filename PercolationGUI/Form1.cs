@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using System.IO;
 using PercolationLIB;
 using ZedGraph;
 
@@ -17,7 +18,8 @@ namespace PercolationGUI
 	public partial class Form1 : Form
 	{
 		IniSettings ini = new IniSettings("config.ini");
-		bool experimantalMode;
+		string pathToPoints = "points of graph.xml";
+		bool experimentalMode;
 		uint heightOfMatrix;
 		uint widthOfMatrix;
 		decimal probability;
@@ -35,6 +37,8 @@ namespace PercolationGUI
 		static BackgroundWorker bw = new BackgroundWorker();
 		public Form1()
 		{
+			bw.WorkerSupportsCancellation = true;
+
 			InitializeComponent();
 			LoadSettings();
 			bw.DoWork += Experiment;
@@ -60,33 +64,26 @@ namespace PercolationGUI
 
 		private void LoadSettings()
 		{
-			Default();
-			try
+			try//Settings
 			{
 				if (ini.KeyExists("probability", "Configuration"))
-				{
 					probability_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "probability"));
-				}
+				else Default(false, false, true);
 				if (ini.KeyExists("number_of_experiments", "Configuration"))
-				{
 					numberOfExperiments_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "number_of_experiments"));
-				}
+				else Default(false, true);
 				if (ini.KeyExists("height_of_matrix", "Configuration"))
-				{
 					heightOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "height_of_matrix"));
-				}
+				else Default(false, false, false, false, true);
 				if (ini.KeyExists("width_of_matrix", "Configuration"))
-				{
 					widthOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "width_of_matrix"));
-				}
+				else Default(false, false, false, false, false, true);
 				if (ini.KeyExists("probability_step", "Configuration"))
-				{
 					probabilityStep_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "probability_step"));
-				}
+				else Default(false, false, false, true);
 				if (ini.KeyExists("experimental_mode", "Configuration"))
-				{
-					experimantalMode_checkBox.Checked = bool.Parse(ini.ReadINI("Configuration", "experimental_mode"));
-				}
+					experimentalMode_checkBox.Checked = bool.Parse(ini.ReadINI("Configuration", "experimental_mode"));
+				else Default(false, false, false, false, false, false, true);
 				RefreshData(true, true, true, true, true);
 				RefreshGUI();
 			}
@@ -95,31 +92,86 @@ namespace PercolationGUI
 				MessageBox.Show("config.ini is corrupted!\nAll values is set to default");
 				Default(false, true);
 			}
-		}//Sets all values to default
 
-		private void Default(bool points = false, bool values = false)
+			try//Deserialization
+			{
+				if (File.Exists(pathToPoints))
+					points = Serialization.Deserialize<PointPairList>(pathToPoints);
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("point of graph.xml is corrupted!\nList of points is set to empty");
+			}
+		}//Loads settings
+
+		private void LoadSettingsToResume()
+		{
+			try//Settings
+			{
+				if (ini.KeyExists("probability", "Last Experiment"))
+					probability_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "probability"));
+				else Default(false, false, true);
+				if (ini.KeyExists("number_of_experiments", "Last Experiment"))
+					numberOfExperiments_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "number_of_experiments"));
+				else Default(false, true);
+				if (ini.KeyExists("height_of_matrix", "Last Experiment"))
+					heightOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "height_of_matrix"));
+				else Default(false, false, false, false, true);
+				if (ini.KeyExists("width_of_matrix", "Last Experiment"))
+					widthOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "width_of_matrix"));
+				else Default(false, false, false, false, false, true);
+				if (ini.KeyExists("probability_step", "Last Experiment"))
+					probabilityStep_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "probability_step"));
+				else Default(false, false, false, true);
+				if (ini.KeyExists("experimental_mode", "Last Experiment"))
+					experimentalMode_checkBox.Checked = bool.Parse(ini.ReadINI("Last Experiment", "experimental_mode"));
+				else Default(false, false, false, false, false, false, true);
+				RefreshData(true, true, true, true, true);
+				RefreshGUI();
+			}
+			catch (Exception)
+			{
+				MessageBox.Show("config.ini is corrupted!\nAll values is set to default");
+				Default(false, true);
+			}
+		}//Loads config to resume
+
+		private void SerializePoints()
+		{
+			Serialization.Serialize(points, pathToPoints);
+		}
+
+		private void Default(bool points = false, bool numberOfExperiments = false,
+			bool probability = false, bool probabilityStep = false,
+			bool heightOfMatrix = false, bool widthOfMatrix = false,
+			bool experimentalMode = false)
 		{
 			if (points)
 			{
 				this.points.Clear();
 				graph_zedGraphControl.Invalidate();
+				File.Delete(pathToPoints);
+				return;
 			}
-			if (values)
-			{
+			if (numberOfExperiments)
 				numberOfExperiments_numericUpDown.Value = 100;
+			if (probability)
 				probability_numericUpDown.Value = 0.001m;
+			if (probabilityStep)
 				probabilityStep_numericUpDown.Value = 0.001m;
+			if (heightOfMatrix)
 				heightOfMatrix_numericUpDown.Value = 10m;
+			if (widthOfMatrix)
 				widthOfMatrix_numericUpDown.Value = 10m;
-				experimantalMode_checkBox.Checked = false;
-				RefreshData(true, true, true, true, true);
-				RefreshGUI();
-			}
+			if (experimentalMode)
+				experimentalMode_checkBox.Checked = false;
+			RefreshData(true, true, true, true, true);
+			RefreshGUI();
 		}
 
 		private void RefreshGUI()
 		{
-			if (experimantalMode_checkBox.Checked)
+			if (experimentalMode_checkBox.Checked)
 			{
 				probability_numericUpDown.Hide();
 				probability_label.Hide();
@@ -137,13 +189,14 @@ namespace PercolationGUI
 				numberOfExperiments_label.Hide();
 				numberOfExperiments_numericUpDown.Hide();
 			}
+			graph_zedGraphControl.Invalidate();
 		}//Refreshes GUI elements
 
 		private void RefreshData(bool experiment = false, bool probability = false, bool size = false, bool probabilityStep = false, bool numberOfExperiments = false)
 		{
 			if (experiment)
 			{
-				experimantalMode = experimantalMode_checkBox.Checked;
+				experimentalMode = experimentalMode_checkBox.Checked;
 			}
 			if (probability)
 			{
@@ -180,7 +233,7 @@ namespace PercolationGUI
 		{
 			RefreshData(true);
 			RefreshGUI();
-			ini.Write("Configuration", "experimental_mode", experimantalMode.ToString());
+			ini.Write("Configuration", "experimental_mode", experimentalMode.ToString());
 		}//Changing experimental/single-matrix mode in GUI
 
 		private void heightOfMatrix_numericUpDown_ValueChanged(object sender, EventArgs e)
@@ -197,8 +250,10 @@ namespace PercolationGUI
 
 		private void start_button_Click(object sender, EventArgs e)
 		{
-			if (experimantalMode)
+			if (experimentalMode)
 			{
+				Default(true);
+				decProbabilityMin = 0;
 				bw.RunWorkerAsync();
 			}
 			else
@@ -239,7 +294,8 @@ namespace PercolationGUI
 
 		private void Experiment(object sender, DoWorkEventArgs e)
 		{
-			Default(true);
+			DateTime startTime = DateTime.Now;
+			string str;
 			for (probability = decProbabilityMin; probability <= decProbabilityMax; probability += decProbabilityStep)
 			{
 				decimal percolationProbability = 0;
@@ -250,8 +306,12 @@ namespace PercolationGUI
 					bool isPercolation = Methods.CheckPercolation(matrix);
 					if (isPercolation) percolationProbability += (1m / numberOfExperiments);
 					if (isPercolation) count++;
+					if (bw.CancellationPending)
+					{
+						return;
+					}
 				}
-				string str = string.Format("Probability: {0}, Trues: {1}, Percolation probability: {2}\n", probability, count, percolationProbability);
+				str = string.Format("Probability: {0}, Trues: {1}, Percolation probability: {2}\n", probability, count, percolationProbability);
 				if (log_richTextBox.InvokeRequired) log_richTextBox.Invoke(
 					new Action<string>((s) =>
 				   {
@@ -259,7 +319,15 @@ namespace PercolationGUI
 				   }),
 					str);
 				AddPointToGraph((double)probability, (double)percolationProbability);
+				SerializePoints();
 			}
+			str = string.Format("Time passed: {0}", DateTime.Now - startTime);
+			if (log_richTextBox.InvokeRequired) log_richTextBox.Invoke(
+				new Action<string>((s) =>
+				{
+					log_richTextBox.Text += str;
+				}),
+				str);
 		}//Method for experimental mode to work in background
 
 		private void graph_zedGraphControl_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
@@ -283,6 +351,26 @@ namespace PercolationGUI
 			{
 				pane.YAxis.Scale.Max = 1.0;
 			}
+		}
+
+		private void pause_button_Click(object sender, EventArgs e)
+		{
+			bw.CancelAsync();
+			ini.Write("Last Experiment", "number_of_experiments", numberOfExperiments.ToString());
+			ini.Write("Last Experiment", "probability_step", decProbabilityStep.ToString());
+			ini.Write("Last Experiment", "probability", probability.ToString());
+			ini.Write("Last Experiment", "height_of_matrix", heightOfMatrix.ToString());
+			ini.Write("Last Experiment", "width_of_matrix", widthOfMatrix.ToString());
+			ini.Write("Last Experiment", "experimental_mode", experimentalMode.ToString());
+		}
+
+		private void resume_button_Click(object sender, EventArgs e)
+		{
+			LoadSettingsToResume();
+			//Default(true);
+			decProbabilityMin = probability;
+
+			bw.RunWorkerAsync();
 		}
 	}
 }

@@ -41,12 +41,14 @@
 			this.widthOfMatrix_label = new System.Windows.Forms.Label();
 			this.heightOfMatrix_label = new System.Windows.Forms.Label();
 			this.heightOfMatrix_numericUpDown = new System.Windows.Forms.NumericUpDown();
-			this.experimantalMode_checkBox = new System.Windows.Forms.CheckBox();
+			this.experimentalMode_checkBox = new System.Windows.Forms.CheckBox();
 			this.pages_tabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.graph_zedGraphControl = new ZedGraph.ZedGraphControl();
 			this.log_tabpage = new System.Windows.Forms.TabPage();
 			this.log_richTextBox = new System.Windows.Forms.RichTextBox();
+			this.pause_button = new System.Windows.Forms.Button();
+			this.resume_button = new System.Windows.Forms.Button();
 			this.options_groupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.probability_numericUpDown)).BeginInit();
@@ -60,6 +62,8 @@
 			// 
 			// options_groupBox
 			// 
+			this.options_groupBox.Controls.Add(this.resume_button);
+			this.options_groupBox.Controls.Add(this.pause_button);
 			this.options_groupBox.Controls.Add(this.numberOfExperiments_label);
 			this.options_groupBox.Controls.Add(this.numberOfExperiments_numericUpDown);
 			this.options_groupBox.Controls.Add(this.probabilityStep_label);
@@ -71,7 +75,7 @@
 			this.options_groupBox.Controls.Add(this.widthOfMatrix_label);
 			this.options_groupBox.Controls.Add(this.heightOfMatrix_label);
 			this.options_groupBox.Controls.Add(this.heightOfMatrix_numericUpDown);
-			this.options_groupBox.Controls.Add(this.experimantalMode_checkBox);
+			this.options_groupBox.Controls.Add(this.experimentalMode_checkBox);
 			this.options_groupBox.Location = new System.Drawing.Point(17, 12);
 			this.options_groupBox.Name = "options_groupBox";
 			this.options_groupBox.Size = new System.Drawing.Size(230, 361);
@@ -172,11 +176,11 @@
 			// 
 			// start_button
 			// 
-			this.start_button.Location = new System.Drawing.Point(38, 63);
+			this.start_button.Location = new System.Drawing.Point(20, 19);
 			this.start_button.Name = "start_button";
-			this.start_button.Size = new System.Drawing.Size(124, 40);
+			this.start_button.Size = new System.Drawing.Size(128, 21);
 			this.start_button.TabIndex = 7;
-			this.start_button.Text = "Start!";
+			this.start_button.Text = "New experiment!";
 			this.start_button.UseVisualStyleBackColor = true;
 			this.start_button.Click += new System.EventHandler(this.start_button_Click);
 			// 
@@ -257,18 +261,18 @@
             0});
 			this.heightOfMatrix_numericUpDown.ValueChanged += new System.EventHandler(this.heightOfMatrix_numericUpDown_ValueChanged);
 			// 
-			// experimantalMode_checkBox
+			// experimentalMode_checkBox
 			// 
-			this.experimantalMode_checkBox.AutoSize = true;
-			this.experimantalMode_checkBox.Checked = true;
-			this.experimantalMode_checkBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.experimantalMode_checkBox.Location = new System.Drawing.Point(6, 321);
-			this.experimantalMode_checkBox.Name = "experimantalMode_checkBox";
-			this.experimantalMode_checkBox.Size = new System.Drawing.Size(116, 17);
-			this.experimantalMode_checkBox.TabIndex = 0;
-			this.experimantalMode_checkBox.Text = "Experimental Mode";
-			this.experimantalMode_checkBox.UseVisualStyleBackColor = true;
-			this.experimantalMode_checkBox.CheckedChanged += new System.EventHandler(this.experimantalMode_checkBox_CheckedChanged);
+			this.experimentalMode_checkBox.AutoSize = true;
+			this.experimentalMode_checkBox.Checked = true;
+			this.experimentalMode_checkBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.experimentalMode_checkBox.Location = new System.Drawing.Point(6, 321);
+			this.experimentalMode_checkBox.Name = "experimentalMode_checkBox";
+			this.experimentalMode_checkBox.Size = new System.Drawing.Size(116, 17);
+			this.experimentalMode_checkBox.TabIndex = 0;
+			this.experimentalMode_checkBox.Text = "Experimental Mode";
+			this.experimentalMode_checkBox.UseVisualStyleBackColor = true;
+			this.experimentalMode_checkBox.CheckedChanged += new System.EventHandler(this.experimantalMode_checkBox_CheckedChanged);
 			// 
 			// pages_tabControl
 			// 
@@ -336,6 +340,26 @@
 			this.log_richTextBox.WordWrap = false;
 			this.log_richTextBox.TextChanged += new System.EventHandler(this.log_richTextBox_TextChanged);
 			// 
+			// pause_button
+			// 
+			this.pause_button.Location = new System.Drawing.Point(20, 46);
+			this.pause_button.Name = "pause_button";
+			this.pause_button.Size = new System.Drawing.Size(128, 23);
+			this.pause_button.TabIndex = 13;
+			this.pause_button.Text = "Pause";
+			this.pause_button.UseVisualStyleBackColor = true;
+			this.pause_button.Click += new System.EventHandler(this.pause_button_Click);
+			// 
+			// resume_button
+			// 
+			this.resume_button.Location = new System.Drawing.Point(20, 75);
+			this.resume_button.Name = "resume_button";
+			this.resume_button.Size = new System.Drawing.Size(128, 23);
+			this.resume_button.TabIndex = 14;
+			this.resume_button.Text = "Resume";
+			this.resume_button.UseVisualStyleBackColor = true;
+			this.resume_button.Click += new System.EventHandler(this.resume_button_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -362,7 +386,7 @@
 		#endregion
 
 		private System.Windows.Forms.GroupBox options_groupBox;
-		private System.Windows.Forms.CheckBox experimantalMode_checkBox;
+		private System.Windows.Forms.CheckBox experimentalMode_checkBox;
 		private System.Windows.Forms.NumericUpDown heightOfMatrix_numericUpDown;
 		private System.Windows.Forms.Label heightOfMatrix_label;
 		private System.Windows.Forms.Label widthOfMatrix_label;
@@ -379,6 +403,8 @@
 		private System.Windows.Forms.Label numberOfExperiments_label;
 		private System.Windows.Forms.NumericUpDown numberOfExperiments_numericUpDown;
 		private ZedGraph.ZedGraphControl graph_zedGraphControl;
+		private System.Windows.Forms.Button resume_button;
+		private System.Windows.Forms.Button pause_button;
 	}
 }
 
