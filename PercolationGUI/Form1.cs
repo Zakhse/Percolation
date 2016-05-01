@@ -38,10 +38,12 @@ namespace PercolationGUI
 		public Form1()
 		{
 			bw.WorkerSupportsCancellation = true;
+			bw.DoWork += Experiment;
+			bw.RunWorkerCompleted +=backgroundWorker_RunWorkerCompleted;
 
 			InitializeComponent();
 			LoadSettings();
-			bw.DoWork += Experiment;
+
 			RefreshData(true, true, true, true, true);
 			RefreshGUI();
 			pane = graph_zedGraphControl.GraphPane;
@@ -90,7 +92,9 @@ namespace PercolationGUI
 			catch (Exception)
 			{
 				MessageBox.Show("config.ini is corrupted!\nAll values is set to default");
-				Default(false, true);
+				Default(false, true,true,true,true,true,true);
+				RefreshData(true, true, true, true, true);
+				RefreshGUI();
 			}
 
 			try//Deserialization
@@ -98,7 +102,7 @@ namespace PercolationGUI
 				if (File.Exists(pathToPoints))
 					points = Serialization.Deserialize<PointPairList>(pathToPoints);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				MessageBox.Show("point of graph.xml is corrupted!\nList of points is set to empty");
 			}
@@ -132,7 +136,9 @@ namespace PercolationGUI
 			catch (Exception)
 			{
 				MessageBox.Show("config.ini is corrupted!\nAll values is set to default");
-				Default(false, true);
+				Default(false, true, true, true, true, true, true);
+				RefreshData(true, true, true, true, true);
+				RefreshGUI();
 			}
 		}//Loads config to resume
 
@@ -179,6 +185,9 @@ namespace PercolationGUI
 				probabilityStep_label.Show();
 				numberOfExperiments_label.Show();
 				numberOfExperiments_numericUpDown.Show();
+				resume_button.Enabled = true;
+				heightOfMatrix_numericUpDown.Maximum = 1000;
+				widthOfMatrix_numericUpDown.Maximum = 1000;
 			}
 			else
 			{
@@ -188,6 +197,9 @@ namespace PercolationGUI
 				probabilityStep_label.Hide();
 				numberOfExperiments_label.Hide();
 				numberOfExperiments_numericUpDown.Hide();
+				resume_button.Enabled = false;
+				heightOfMatrix_numericUpDown.Maximum = 100;
+				widthOfMatrix_numericUpDown.Maximum = 100;
 			}
 			graph_zedGraphControl.Invalidate();
 		}//Refreshes GUI elements
@@ -252,6 +264,10 @@ namespace PercolationGUI
 		{
 			if (experimentalMode)
 			{
+				start_button.Enabled = false;
+				pause_button.Enabled = true;
+				resume_button.Enabled = false;
+				experimentalMode_checkBox.Enabled = false;
 				Default(true);
 				decProbabilityMin = 0;
 				bw.RunWorkerAsync();
@@ -262,9 +278,9 @@ namespace PercolationGUI
 				PercolationCell[,] matrix = Methods.CreatePercolationMatrix(heightOfMatrix, widthOfMatrix, (double)probability);
 				bool isPercolation = Methods.CheckPercolation(matrix, true);
 				log_richTextBox.Text += Methods.StringPercolationMatrix(matrix);
-				log_richTextBox.Text += String.Format("There is percolation: {0}", isPercolation);
-				log_richTextBox.Text += String.Format("Total time : {0}", DateTime.Now - startTime);
-
+				log_richTextBox.Text += String.Format("There is percolation: {0}\n", isPercolation);
+				log_richTextBox.Text += String.Format("Total time : {0}\n", DateTime.Now - startTime);
+				start_button.Enabled = true;
 			}
 		}//Clicking start button
 
@@ -330,6 +346,13 @@ namespace PercolationGUI
 				str);
 		}//Method for experimental mode to work in background
 
+		private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			start_button.Enabled = true;
+			pause_button.Enabled = false;
+			experimentalMode_checkBox.Enabled = true;
+		}
+
 		private void graph_zedGraphControl_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
 		{
 			if (pane.XAxis.Scale.Min <= 0.0)
@@ -356,6 +379,9 @@ namespace PercolationGUI
 		private void pause_button_Click(object sender, EventArgs e)
 		{
 			bw.CancelAsync();
+			resume_button.Enabled = true;
+			pause_button.Enabled = false;
+			experimentalMode_checkBox.Enabled = true;
 			ini.Write("Last Experiment", "number_of_experiments", numberOfExperiments.ToString());
 			ini.Write("Last Experiment", "probability_step", decProbabilityStep.ToString());
 			ini.Write("Last Experiment", "probability", probability.ToString());
@@ -367,9 +393,9 @@ namespace PercolationGUI
 		private void resume_button_Click(object sender, EventArgs e)
 		{
 			LoadSettingsToResume();
-			//Default(true);
+			resume_button.Enabled = false;
 			decProbabilityMin = probability;
-
+			pause_button.Enabled = true;
 			bw.RunWorkerAsync();
 		}
 	}

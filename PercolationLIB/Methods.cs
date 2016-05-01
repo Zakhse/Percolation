@@ -60,7 +60,7 @@ namespace PercolationLIB
 		private static Random rnd = new Random();
 
 		//Probability must be from 0.0 to 1.0!
-		public static PercolationCell[,] CreatePercolationMatrix(uint height,uint width, double probability)
+		public static PercolationCell[,] CreatePercolationMatrix(uint height, uint width, double probability)
 		{
 			PercolationCell[,] matrix = new PercolationCell[height, width];
 			for (int i = 0; i < height; i++)
@@ -81,17 +81,13 @@ namespace PercolationLIB
 			return matrix;
 		}
 
-		public static bool CheckPercolation(PercolationCell[,] matrix, bool turnAllGroupsToRight=false)
+		public static bool CheckPercolation(PercolationCell[,] matrix, bool turnAllGroupsToRight = false)
 		{
 			bool isPercolation = false;
-			//int[] group = new int[0];
-			int[] group = new int[matrix.GetLength(0)*matrix.GetLength(1)/2 +1];
+			int[] group = new int[matrix.GetLength(0) * matrix.GetLength(1) / 2 + 1];
 			int nextGroup = 0;
 			if (matrix[0, 0].Filled)
 			{
-				//Array.Resize<int>(ref group, group.Length + 1);
-				//group[group.Length - 1] = group.Length-1;
-				//matrix[0, 0].Group = group.Length - 1;
 				group[nextGroup] = nextGroup;
 				matrix[0, 0].Group = nextGroup;
 				nextGroup++;
@@ -106,9 +102,6 @@ namespace PercolationLIB
 					}
 					else
 					{
-						//Array.Resize<int>(ref group, group.Length + 1);
-						//group[group.Length - 1] = group.Length - 1;
-						//matrix[0, j].Group = group.Length - 1;
 						group[nextGroup] = nextGroup;
 						matrix[0, j].Group = nextGroup;
 						nextGroup++;
@@ -128,9 +121,6 @@ namespace PercolationLIB
 					}
 					else
 					{
-						//Array.Resize<int>(ref group, group.Length + 1);
-						//group[group.Length - 1] = group.Length - 1;
-						//matrix[i, 0].Group = group.Length - 1;
 						group[nextGroup] = nextGroup;
 						matrix[i, 0].Group = nextGroup;
 						nextGroup++;
@@ -146,8 +136,9 @@ namespace PercolationLIB
 					{
 						continue;
 					}
+
 					//upper=1
-					if (matrix[i - 1,j].Filled)
+					if (matrix[i - 1, j].Filled)
 					{
 						//upper=1 left=1
 						if (matrix[i, j - 1].Filled)
@@ -155,11 +146,15 @@ namespace PercolationLIB
 							if (group[matrix[i - 1, j].Group] < group[matrix[i, j - 1].Group])
 							{
 								matrix[i, j].Group = group[matrix[i - 1, j].Group];
+								//group[ReturnRightGroup(matrix[i, j - 1].Group, group)] = group[matrix[i - 1, j].Group];
+								group[group[matrix[i, j - 1].Group]] = group[matrix[i - 1, j].Group];
 								group[matrix[i, j - 1].Group] = group[matrix[i - 1, j].Group];
 							}
 							else
 							{
 								matrix[i, j].Group = group[matrix[i, j - 1].Group];
+								//group[ReturnRightGroup(matrix[i - 1, j].Group, group)] = group[matrix[i, j - 1].Group];
+								group[group[matrix[i - 1, j].Group]] = group[matrix[i, j - 1].Group];
 								group[matrix[i - 1, j].Group] = group[matrix[i, j - 1].Group];
 							}
 							continue;
@@ -183,9 +178,6 @@ namespace PercolationLIB
 						//upper=0 left=0
 						else
 						{
-							//Array.Resize<int>(ref group, group.Length + 1);
-							//group[group.Length - 1] = group.Length - 1;
-							//matrix[i, j].Group = group.Length - 1;
 							group[nextGroup] = nextGroup;
 							matrix[i, j].Group = nextGroup;
 							nextGroup++;
@@ -193,6 +185,12 @@ namespace PercolationLIB
 					}
 				}
 			}
+			//let's turn all groups in array of groups to right ones
+			for (int j = 0; j < nextGroup; j++)
+			{
+				group[j] = ReturnRightGroup(j, group);
+			}
+
 			int[] topLineGroups = new int[matrix.GetLength(1)];
 			int[] bottomLineGroups = new int[matrix.GetLength(1)];
 			for (int j = 0; j < matrix.GetLength(1); j++)
@@ -211,6 +209,7 @@ namespace PercolationLIB
 				}
 			}
 
+
 			if (turnAllGroupsToRight)
 			{
 				for (int i = 0; i < matrix.GetLength(0); i++)
@@ -225,11 +224,12 @@ namespace PercolationLIB
 				}
 			}
 			return isPercolation;
-
+		}//Checks if there is percolation
+		private static int ReturnRightGroup(int group, int[] array)
+		{
+			if (array == null) return group;
+			if (array[group] == group) return group;
+			else return ReturnRightGroup(array[group], array);
 		}
 	}
-
-
 }
-
-

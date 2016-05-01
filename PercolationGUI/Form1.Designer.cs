@@ -30,6 +30,8 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.options_groupBox = new System.Windows.Forms.GroupBox();
+			this.resume_button = new System.Windows.Forms.Button();
+			this.pause_button = new System.Windows.Forms.Button();
 			this.numberOfExperiments_label = new System.Windows.Forms.Label();
 			this.numberOfExperiments_numericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.probabilityStep_label = new System.Windows.Forms.Label();
@@ -47,8 +49,6 @@
 			this.graph_zedGraphControl = new ZedGraph.ZedGraphControl();
 			this.log_tabpage = new System.Windows.Forms.TabPage();
 			this.log_richTextBox = new System.Windows.Forms.RichTextBox();
-			this.pause_button = new System.Windows.Forms.Button();
-			this.resume_button = new System.Windows.Forms.Button();
 			this.options_groupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.probability_numericUpDown)).BeginInit();
@@ -82,6 +82,27 @@
 			this.options_groupBox.TabIndex = 0;
 			this.options_groupBox.TabStop = false;
 			this.options_groupBox.Text = "Options";
+			// 
+			// resume_button
+			// 
+			this.resume_button.Location = new System.Drawing.Point(20, 75);
+			this.resume_button.Name = "resume_button";
+			this.resume_button.Size = new System.Drawing.Size(128, 23);
+			this.resume_button.TabIndex = 14;
+			this.resume_button.Text = "Resume";
+			this.resume_button.UseVisualStyleBackColor = true;
+			this.resume_button.Click += new System.EventHandler(this.resume_button_Click);
+			// 
+			// pause_button
+			// 
+			this.pause_button.Enabled = false;
+			this.pause_button.Location = new System.Drawing.Point(20, 46);
+			this.pause_button.Name = "pause_button";
+			this.pause_button.Size = new System.Drawing.Size(128, 23);
+			this.pause_button.TabIndex = 13;
+			this.pause_button.Text = "Pause";
+			this.pause_button.UseVisualStyleBackColor = true;
+			this.pause_button.Click += new System.EventHandler(this.pause_button_Click);
 			// 
 			// numberOfExperiments_label
 			// 
@@ -334,31 +355,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.log_richTextBox.Location = new System.Drawing.Point(6, 6);
 			this.log_richTextBox.Name = "log_richTextBox";
+			this.log_richTextBox.ReadOnly = true;
 			this.log_richTextBox.Size = new System.Drawing.Size(392, 323);
 			this.log_richTextBox.TabIndex = 0;
 			this.log_richTextBox.Text = "";
 			this.log_richTextBox.WordWrap = false;
 			this.log_richTextBox.TextChanged += new System.EventHandler(this.log_richTextBox_TextChanged);
-			// 
-			// pause_button
-			// 
-			this.pause_button.Location = new System.Drawing.Point(20, 46);
-			this.pause_button.Name = "pause_button";
-			this.pause_button.Size = new System.Drawing.Size(128, 23);
-			this.pause_button.TabIndex = 13;
-			this.pause_button.Text = "Pause";
-			this.pause_button.UseVisualStyleBackColor = true;
-			this.pause_button.Click += new System.EventHandler(this.pause_button_Click);
-			// 
-			// resume_button
-			// 
-			this.resume_button.Location = new System.Drawing.Point(20, 75);
-			this.resume_button.Name = "resume_button";
-			this.resume_button.Size = new System.Drawing.Size(128, 23);
-			this.resume_button.TabIndex = 14;
-			this.resume_button.Text = "Resume";
-			this.resume_button.UseVisualStyleBackColor = true;
-			this.resume_button.Click += new System.EventHandler(this.resume_button_Click);
 			// 
 			// Form1
 			// 
