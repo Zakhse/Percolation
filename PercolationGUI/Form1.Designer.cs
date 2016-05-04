@@ -49,6 +49,8 @@
 			this.graph_zedGraphControl = new ZedGraph.ZedGraphControl();
 			this.log_tabpage = new System.Windows.Forms.TabPage();
 			this.log_richTextBox = new System.Windows.Forms.RichTextBox();
+			this.finished_label = new System.Windows.Forms.Label();
+			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.options_groupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.probability_numericUpDown)).BeginInit();
@@ -62,6 +64,7 @@
 			// 
 			// options_groupBox
 			// 
+			this.options_groupBox.Controls.Add(this.finished_label);
 			this.options_groupBox.Controls.Add(this.resume_button);
 			this.options_groupBox.Controls.Add(this.pause_button);
 			this.options_groupBox.Controls.Add(this.numberOfExperiments_label);
@@ -362,13 +365,31 @@
 			this.log_richTextBox.WordWrap = false;
 			this.log_richTextBox.TextChanged += new System.EventHandler(this.log_richTextBox_TextChanged);
 			// 
+			// finished_label
+			// 
+			this.finished_label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.finished_label.AutoSize = true;
+			this.finished_label.Location = new System.Drawing.Point(57, 118);
+			this.finished_label.Name = "finished_label";
+			this.finished_label.Size = new System.Drawing.Size(54, 13);
+			this.finished_label.TabIndex = 3;
+			this.finished_label.Text = "% finished";
+			this.finished_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// timer
+			// 
+			this.timer.Interval = 500;
+			this.timer.Tick += new System.EventHandler(this.timer_Tick);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(677, 385);
-			this.Controls.Add(this.pages_tabControl);
 			this.Controls.Add(this.options_groupBox);
+			this.Controls.Add(this.pages_tabControl);
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.options_groupBox.ResumeLayout(false);
@@ -407,6 +428,8 @@
 		private ZedGraph.ZedGraphControl graph_zedGraphControl;
 		private System.Windows.Forms.Button resume_button;
 		private System.Windows.Forms.Button pause_button;
+		private System.Windows.Forms.Label finished_label;
+		private System.Windows.Forms.Timer timer;
 	}
 }
 

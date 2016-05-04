@@ -19,6 +19,9 @@ namespace PercolationGUI
 	{
 		IniSettings ini = new IniSettings("config.ini");
 		string pathToPoints = "points of graph.xml";
+		string mainConfigSection = "Configuration";
+		string experimentConfigSection = "Last Experiment";
+
 		bool experimentalMode;
 		uint heightOfMatrix;
 		uint widthOfMatrix;
@@ -30,6 +33,8 @@ namespace PercolationGUI
 		decimal decProbabilityStep;
 		int numberOfExperiments;//per each probability
 		PointPairList points = new PointPairList();
+		TimeSpan timePassed = TimeSpan.Zero;
+		ulong finishedExperiments = 0;
 
 		GraphPane pane;
 		LineItem pointsCurve;
@@ -39,13 +44,11 @@ namespace PercolationGUI
 		{
 			bw.WorkerSupportsCancellation = true;
 			bw.DoWork += Experiment;
-			bw.RunWorkerCompleted +=backgroundWorker_RunWorkerCompleted;
+			bw.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
 
 			InitializeComponent();
 			LoadSettings();
 
-			RefreshData(true, true, true, true, true);
-			RefreshGUI();
 			pane = graph_zedGraphControl.GraphPane;
 			pane.Title.Text = "Graph";
 			pane.XAxis.Scale.Min = 0.0;
@@ -68,33 +71,39 @@ namespace PercolationGUI
 		{
 			try//Settings
 			{
-				if (ini.KeyExists("probability", "Configuration"))
-					probability_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "probability"));
+				if (ini.KeyExists("probability", mainConfigSection))
+					probability_numericUpDown.Value = decimal.Parse(ini.ReadINI(mainConfigSection, "probability"));
 				else Default(false, false, true);
-				if (ini.KeyExists("number_of_experiments", "Configuration"))
-					numberOfExperiments_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "number_of_experiments"));
+				if (ini.KeyExists("number_of_experiments", mainConfigSection))
+					numberOfExperiments_numericUpDown.Value = decimal.Parse(ini.ReadINI(mainConfigSection, "number_of_experiments"));
 				else Default(false, true);
-				if (ini.KeyExists("height_of_matrix", "Configuration"))
-					heightOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "height_of_matrix"));
+				if (ini.KeyExists("height_of_matrix", mainConfigSection))
+					heightOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI(mainConfigSection, "height_of_matrix"));
 				else Default(false, false, false, false, true);
-				if (ini.KeyExists("width_of_matrix", "Configuration"))
-					widthOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "width_of_matrix"));
+				if (ini.KeyExists("width_of_matrix", mainConfigSection))
+					widthOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI(mainConfigSection, "width_of_matrix"));
 				else Default(false, false, false, false, false, true);
-				if (ini.KeyExists("probability_step", "Configuration"))
-					probabilityStep_numericUpDown.Value = decimal.Parse(ini.ReadINI("Configuration", "probability_step"));
+				if (ini.KeyExists("probability_step", mainConfigSection))
+					probabilityStep_numericUpDown.Value = decimal.Parse(ini.ReadINI(mainConfigSection, "probability_step"));
 				else Default(false, false, false, true);
-				if (ini.KeyExists("experimental_mode", "Configuration"))
-					experimentalMode_checkBox.Checked = bool.Parse(ini.ReadINI("Configuration", "experimental_mode"));
+				if (ini.KeyExists("experimental_mode", mainConfigSection))
+					experimentalMode_checkBox.Checked = bool.Parse(ini.ReadINI(mainConfigSection, "experimental_mode"));
 				else Default(false, false, false, false, false, false, true);
+				if (ini.KeyExists("finished", experimentConfigSection))
+					finished_label.Text = ini.ReadINI(experimentConfigSection, "finished");
+				else RefreshGUI(false, true);
+				if (ini.KeyExists("fully_finished", experimentConfigSection))
+					if (bool.Parse(ini.ReadINI(experimentConfigSection, "fully_finished")))
+						resume_button.Enabled = false;
 				RefreshData(true, true, true, true, true);
-				RefreshGUI();
+				RefreshGUI(true);
 			}
 			catch (Exception)
 			{
 				MessageBox.Show("config.ini is corrupted!\nAll values is set to default");
-				Default(false, true,true,true,true,true,true);
+				Default(false, true, true, true, true, true, true);
 				RefreshData(true, true, true, true, true);
-				RefreshGUI();
+				RefreshGUI(true);
 			}
 
 			try//Deserialization
@@ -112,33 +121,36 @@ namespace PercolationGUI
 		{
 			try//Settings
 			{
-				if (ini.KeyExists("probability", "Last Experiment"))
-					probability_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "probability"));
+				if (ini.KeyExists("probability", experimentConfigSection))
+					probability_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "probability"));
 				else Default(false, false, true);
-				if (ini.KeyExists("number_of_experiments", "Last Experiment"))
-					numberOfExperiments_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "number_of_experiments"));
+				if (ini.KeyExists("number_of_experiments", experimentConfigSection))
+					numberOfExperiments_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "number_of_experiments"));
 				else Default(false, true);
-				if (ini.KeyExists("height_of_matrix", "Last Experiment"))
-					heightOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "height_of_matrix"));
+				if (ini.KeyExists("height_of_matrix", experimentConfigSection))
+					heightOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "height_of_matrix"));
 				else Default(false, false, false, false, true);
-				if (ini.KeyExists("width_of_matrix", "Last Experiment"))
-					widthOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "width_of_matrix"));
+				if (ini.KeyExists("width_of_matrix", experimentConfigSection))
+					widthOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "width_of_matrix"));
 				else Default(false, false, false, false, false, true);
-				if (ini.KeyExists("probability_step", "Last Experiment"))
-					probabilityStep_numericUpDown.Value = decimal.Parse(ini.ReadINI("Last Experiment", "probability_step"));
+				if (ini.KeyExists("probability_step", experimentConfigSection))
+					probabilityStep_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "probability_step"));
 				else Default(false, false, false, true);
-				if (ini.KeyExists("experimental_mode", "Last Experiment"))
-					experimentalMode_checkBox.Checked = bool.Parse(ini.ReadINI("Last Experiment", "experimental_mode"));
+				if (ini.KeyExists("experimental_mode", experimentConfigSection))
+					experimentalMode_checkBox.Checked = bool.Parse(ini.ReadINI(experimentConfigSection, "experimental_mode"));
 				else Default(false, false, false, false, false, false, true);
+				if (ini.KeyExists("time_passed", experimentConfigSection))
+					timePassed = TimeSpan.Parse(ini.ReadINI(experimentConfigSection, "time_passed"));
+				else Default(false, false, false, false, false, false, false, true);
 				RefreshData(true, true, true, true, true);
-				RefreshGUI();
+				RefreshGUI(true);
 			}
 			catch (Exception)
 			{
 				MessageBox.Show("config.ini is corrupted!\nAll values is set to default");
 				Default(false, true, true, true, true, true, true);
 				RefreshData(true, true, true, true, true);
-				RefreshGUI();
+				RefreshGUI(true);
 			}
 		}//Loads config to resume
 
@@ -150,7 +162,7 @@ namespace PercolationGUI
 		private void Default(bool points = false, bool numberOfExperiments = false,
 			bool probability = false, bool probabilityStep = false,
 			bool heightOfMatrix = false, bool widthOfMatrix = false,
-			bool experimentalMode = false)
+			bool experimentalMode = false, bool timePassed = false)
 		{
 			if (points)
 			{
@@ -171,40 +183,70 @@ namespace PercolationGUI
 				widthOfMatrix_numericUpDown.Value = 10m;
 			if (experimentalMode)
 				experimentalMode_checkBox.Checked = false;
+			if (timePassed)
+				this.timePassed = TimeSpan.Zero;
 			RefreshData(true, true, true, true, true);
-			RefreshGUI();
+			RefreshGUI(true);
 		}
 
-		private void RefreshGUI()
+		private void RefreshGUI(bool elements = false, bool procents = false)
 		{
-			if (experimentalMode_checkBox.Checked)
+			if (elements)
 			{
-				probability_numericUpDown.Hide();
-				probability_label.Hide();
-				probabilityStep_numericUpDown.Show();
-				probabilityStep_label.Show();
-				numberOfExperiments_label.Show();
-				numberOfExperiments_numericUpDown.Show();
-				resume_button.Enabled = true;
-				heightOfMatrix_numericUpDown.Maximum = 1000;
-				widthOfMatrix_numericUpDown.Maximum = 1000;
+				if (experimentalMode_checkBox.Checked)
+				{
+					probability_numericUpDown.Hide();
+					probability_label.Hide();
+					probabilityStep_numericUpDown.Show();
+					probabilityStep_label.Show();
+					numberOfExperiments_label.Show();
+					numberOfExperiments_numericUpDown.Show();
+					resume_button.Show();
+					pause_button.Show();
+					heightOfMatrix_numericUpDown.Maximum = 1000;
+					widthOfMatrix_numericUpDown.Maximum = 1000;
+					finished_label.Show();
+				}
+				else
+				{
+					probability_numericUpDown.Show();
+					probability_label.Show();
+					probabilityStep_numericUpDown.Hide();
+					probabilityStep_label.Hide();
+					numberOfExperiments_label.Hide();
+					numberOfExperiments_numericUpDown.Hide();
+					resume_button.Hide();
+					pause_button.Hide();
+					heightOfMatrix_numericUpDown.Maximum = 100;
+					widthOfMatrix_numericUpDown.Maximum = 100;
+					finished_label.Hide();
+				}
+				graph_zedGraphControl.Invalidate();
 			}
-			else
+			if (procents)
 			{
-				probability_numericUpDown.Show();
-				probability_label.Show();
-				probabilityStep_numericUpDown.Hide();
-				probabilityStep_label.Hide();
-				numberOfExperiments_label.Hide();
-				numberOfExperiments_numericUpDown.Hide();
-				resume_button.Enabled = false;
-				heightOfMatrix_numericUpDown.Maximum = 100;
-				widthOfMatrix_numericUpDown.Maximum = 100;
+				finished_label.Text = String.Format("{0:0.##}% finished",
+					(finishedExperiments * 100) / (Math.Truncate(1.0 / (double)decProbabilityStep + 1) * numberOfExperiments));
 			}
-			graph_zedGraphControl.Invalidate();
 		}//Refreshes GUI elements
 
-		private void RefreshData(bool experiment = false, bool probability = false, bool size = false, bool probabilityStep = false, bool numberOfExperiments = false)
+		/// <summary>
+		/// Enables or disables elements, which tunes probability step, size of matrix,
+		/// experimental mode, number of experiments per probability
+		/// </summary>
+		/// <param name="key">True to enable and false to disable.</param>
+		private void ShowExperimentalElements(bool key)
+		{
+			probabilityStep_numericUpDown.Enabled = key;
+			heightOfMatrix_numericUpDown.Enabled = key;
+			widthOfMatrix_numericUpDown.Enabled = key;
+			numberOfExperiments_numericUpDown.Enabled = key;
+			experimentalMode_checkBox.Enabled = key;
+		}
+
+		private void RefreshData(bool experiment = false, bool probability = false,
+			bool size = false, bool probabilityStep = false,
+			bool numberOfExperiments = false)
 		{
 			if (experiment)
 			{
@@ -244,20 +286,20 @@ namespace PercolationGUI
 		private void experimantalMode_checkBox_CheckedChanged(object sender, EventArgs e)
 		{
 			RefreshData(true);
-			RefreshGUI();
-			ini.Write("Configuration", "experimental_mode", experimentalMode.ToString());
+			RefreshGUI(true);
+			ini.Write(mainConfigSection, "experimental_mode", experimentalMode.ToString());
 		}//Changing experimental/single-matrix mode in GUI
 
 		private void heightOfMatrix_numericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			RefreshData(false, false, true);
-			ini.Write("Configuration", "height_of_matrix", heightOfMatrix.ToString());
+			ini.Write(mainConfigSection, "height_of_matrix", heightOfMatrix.ToString());
 		}//Changing height in GUI
 
 		private void widthOfMatrix_numericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			RefreshData(false, false, true);
-			ini.Write("Configuration", "width_of_matrix", widthOfMatrix.ToString());
+			ini.Write(mainConfigSection, "width_of_matrix", widthOfMatrix.ToString());
 		}//Changing width of matrix in GUI
 
 		private void start_button_Click(object sender, EventArgs e)
@@ -267,9 +309,13 @@ namespace PercolationGUI
 				start_button.Enabled = false;
 				pause_button.Enabled = true;
 				resume_button.Enabled = false;
-				experimentalMode_checkBox.Enabled = false;
+				ShowExperimentalElements(false);
 				Default(true);
 				decProbabilityMin = 0;
+				finishedExperiments = 0;
+				timePassed = TimeSpan.Zero;
+				timer.Enabled = true;
+				log_richTextBox.Text += "New experiment started...\n";
 				bw.RunWorkerAsync();
 			}
 			else
@@ -287,13 +333,13 @@ namespace PercolationGUI
 		private void probability_numericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			RefreshData(false, true, false);
-			ini.Write("Configuration", "probability", probability.ToString());
+			ini.Write(mainConfigSection, "probability", probability.ToString());
 		}//Changing probability in GUI
 
 		private void probabilityStep_numericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			RefreshData(false, false, false, true);
-			ini.Write("Configuration", "probability_step", decProbabilityStep.ToString());
+			ini.Write(mainConfigSection, "probability_step", decProbabilityStep.ToString());
 		}//Changing probability step in GUI
 
 		private void log_richTextBox_TextChanged(object sender, EventArgs e)
@@ -305,39 +351,41 @@ namespace PercolationGUI
 		private void numberOfExperiments_numericUpDown_ValueChanged(object sender, EventArgs e)
 		{
 			RefreshData(false, false, false, false, true);
-			ini.Write("Configuration", "number_of_experiments", numberOfExperiments.ToString());
+			ini.Write(mainConfigSection, "number_of_experiments", numberOfExperiments.ToString());
 		}//Changing number of experiments per probability in GUI
 
 		private void Experiment(object sender, DoWorkEventArgs e)
 		{
-			DateTime startTime = DateTime.Now;
+			DateTime startTime = DateTime.Now - timePassed;
 			string str;
 			for (probability = decProbabilityMin; probability <= decProbabilityMax; probability += decProbabilityStep)
 			{
-				decimal percolationProbability = 0;
+				uint percolationProbability = 0;
 				int count = 0;
 				for (int i = 0; i < numberOfExperiments; i++)
 				{
 					PercolationCell[,] matrix = Methods.CreatePercolationMatrix(heightOfMatrix, widthOfMatrix, (double)probability);
 					bool isPercolation = Methods.CheckPercolation(matrix);
-					if (isPercolation) percolationProbability += (1m / numberOfExperiments);
+					if (isPercolation) percolationProbability++;
 					if (isPercolation) count++;
+					timePassed = DateTime.Now - startTime;
+					finishedExperiments += 1;
 					if (bw.CancellationPending)
 					{
 						return;
 					}
 				}
-				str = string.Format("Probability: {0}, Trues: {1}, Percolation probability: {2}\n", probability, count, percolationProbability);
+				str = string.Format("Probability: {0}, Trues: {1}, Percolation probability: {2}\n", probability, count, (double)percolationProbability/numberOfExperiments);
 				if (log_richTextBox.InvokeRequired) log_richTextBox.Invoke(
 					new Action<string>((s) =>
 				   {
 					   log_richTextBox.Text += str;
 				   }),
 					str);
-				AddPointToGraph((double)probability, (double)percolationProbability);
+				AddPointToGraph((double)probability, (double)percolationProbability / numberOfExperiments);
 				SerializePoints();
 			}
-			str = string.Format("Time passed: {0}", DateTime.Now - startTime);
+			str = string.Format("Finished!\nTime passed: {0}\n", timePassed);
 			if (log_richTextBox.InvokeRequired) log_richTextBox.Invoke(
 				new Action<string>((s) =>
 				{
@@ -350,7 +398,14 @@ namespace PercolationGUI
 		{
 			start_button.Enabled = true;
 			pause_button.Enabled = false;
-			experimentalMode_checkBox.Enabled = true;
+			ShowExperimentalElements(true);
+			timer.Enabled = false;
+			RefreshGUI(false, true);
+			if (finishedExperiments / (Math.Truncate(1.0 / (double)decProbabilityStep + 1) * numberOfExperiments) == 1)
+			{
+				ini.Write(experimentConfigSection, "fully_finished", true.ToString());
+			}
+			ini.Write(experimentConfigSection, "finished", finished_label.Text);
 		}
 
 		private void graph_zedGraphControl_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
@@ -379,15 +434,20 @@ namespace PercolationGUI
 		private void pause_button_Click(object sender, EventArgs e)
 		{
 			bw.CancelAsync();
+			log_richTextBox.Text += string.Format("Paused.\tTime passed: {0}\n", timePassed) ;
+			timer.Enabled = false;
 			resume_button.Enabled = true;
 			pause_button.Enabled = false;
-			experimentalMode_checkBox.Enabled = true;
-			ini.Write("Last Experiment", "number_of_experiments", numberOfExperiments.ToString());
-			ini.Write("Last Experiment", "probability_step", decProbabilityStep.ToString());
-			ini.Write("Last Experiment", "probability", probability.ToString());
-			ini.Write("Last Experiment", "height_of_matrix", heightOfMatrix.ToString());
-			ini.Write("Last Experiment", "width_of_matrix", widthOfMatrix.ToString());
-			ini.Write("Last Experiment", "experimental_mode", experimentalMode.ToString());
+			RefreshGUI(false, true);
+			ini.Write(experimentConfigSection, "number_of_experiments", numberOfExperiments.ToString());
+			ini.Write(experimentConfigSection, "probability_step", decProbabilityStep.ToString());
+			ini.Write(experimentConfigSection, "probability", probability.ToString());
+			ini.Write(experimentConfigSection, "height_of_matrix", heightOfMatrix.ToString());
+			ini.Write(experimentConfigSection, "width_of_matrix", widthOfMatrix.ToString());
+			ini.Write(experimentConfigSection, "experimental_mode", experimentalMode.ToString());
+			ini.Write(experimentConfigSection, "time_passed", timePassed.ToString());
+			ini.Write(experimentConfigSection, "finished", finished_label.Text);
+			ini.Write(experimentConfigSection, "fully_finished", false.ToString());
 		}
 
 		private void resume_button_Click(object sender, EventArgs e)
@@ -396,7 +456,16 @@ namespace PercolationGUI
 			resume_button.Enabled = false;
 			decProbabilityMin = probability;
 			pause_button.Enabled = true;
+			finishedExperiments = (ulong)(probability / decProbabilityStep * numberOfExperiments);
+			RefreshGUI(false, true);
+			timer.Enabled = true;
+			log_richTextBox.Text += "Resumed.\t";
 			bw.RunWorkerAsync();
+		}
+
+		private void timer_Tick(object sender, EventArgs e)
+		{
+			RefreshGUI(false, true);
 		}
 	}
 }
