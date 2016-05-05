@@ -202,6 +202,11 @@
             0,
             0,
             131072});
+			this.probabilityStep_numericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
 			this.probabilityStep_numericUpDown.Name = "probabilityStep_numericUpDown";
 			this.probabilityStep_numericUpDown.Size = new System.Drawing.Size(120, 20);
 			this.probabilityStep_numericUpDown.TabIndex = 8;
@@ -322,7 +327,7 @@
 			this.pages_tabControl.Location = new System.Drawing.Point(253, 12);
 			this.pages_tabControl.Name = "pages_tabControl";
 			this.pages_tabControl.SelectedIndex = 0;
-			this.pages_tabControl.Size = new System.Drawing.Size(412, 361);
+			this.pages_tabControl.Size = new System.Drawing.Size(409, 362);
 			this.pages_tabControl.TabIndex = 1;
 			// 
 			// tabPage1
@@ -331,7 +336,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(404, 335);
+			this.tabPage1.Size = new System.Drawing.Size(401, 336);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Graph";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -341,6 +346,7 @@
 			this.graph_zedGraphControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.graph_zedGraphControl.IsShowContextMenu = false;
 			this.graph_zedGraphControl.Location = new System.Drawing.Point(3, 3);
 			this.graph_zedGraphControl.Name = "graph_zedGraphControl";
 			this.graph_zedGraphControl.ScrollGrace = 0D;
@@ -350,7 +356,7 @@
 			this.graph_zedGraphControl.ScrollMinX = 0D;
 			this.graph_zedGraphControl.ScrollMinY = 0D;
 			this.graph_zedGraphControl.ScrollMinY2 = 0D;
-			this.graph_zedGraphControl.Size = new System.Drawing.Size(398, 329);
+			this.graph_zedGraphControl.Size = new System.Drawing.Size(395, 330);
 			this.graph_zedGraphControl.TabIndex = 2;
 			this.graph_zedGraphControl.ZoomEvent += new ZedGraph.ZedGraphControl.ZoomEventHandler(this.graph_zedGraphControl_ZoomEvent);
 			// 
@@ -388,12 +394,14 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(677, 385);
+			this.ClientSize = new System.Drawing.Size(674, 386);
 			this.Controls.Add(this.options_groupBox);
 			this.Controls.Add(this.pages_tabControl);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MinimumSize = new System.Drawing.Size(690, 425);
 			this.Name = "Percolation";
 			this.Text = "Percolation";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Percolation_FormClosing);
 			this.options_groupBox.ResumeLayout(false);
 			this.options_groupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).EndInit();

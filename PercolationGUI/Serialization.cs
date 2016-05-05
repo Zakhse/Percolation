@@ -24,9 +24,9 @@ namespace PercolationGUI
 					writer.Close();
 				}
 			}
-			catch
+			catch(Exception e)
 			{
-				throw new Exception("Serialization went wrong");
+				throw new Exception(e.Message);
 			}
 		}//Serialize
 
@@ -42,9 +42,9 @@ namespace PercolationGUI
 				}
 				return serializedData;
 			}
-			catch
+			catch (Exception e)
 			{
-				throw new Exception("Deserialization went wrong");
+				throw new Exception(e.Message);
 			}
 		}//Deserialize
 	}

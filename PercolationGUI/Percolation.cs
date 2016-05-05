@@ -165,12 +165,12 @@ namespace PercolationGUI
 			}
 			catch (Exception)
 			{
-				Default(false, true, true, true, true, true,false,true);
+				Default(false, true, true, true, true, true, false, true);
 				RefreshData(true, true, true, true, true);
 				RefreshGUI(true);
 				throw new Exception("config.ini is corrupted.");
 			}
-			
+
 		}//Loads config to resume
 
 		private void SerializePoints()
@@ -402,7 +402,22 @@ namespace PercolationGUI
 				   }),
 					str);
 				AddPointToGraph((double)probability, (double)percolationProbability / numberOfExperiments);
-				SerializePoints();
+				try
+				{
+					SerializePoints();
+				}
+				catch (Exception)
+				{
+					MessageBox.Show("Something is wrong with point of graph.xml\nExperiment will be paused");
+					if (log_richTextBox.InvokeRequired)
+					{
+						log_richTextBox.Invoke(
+							new Action(() => { pause_button.PerformClick(); })
+							);
+					}
+					else
+						pause_button.PerformClick();
+				}
 			}
 			str = string.Format("Finished!\nTime passed: {0}\n", timePassed);
 			if (log_richTextBox.InvokeRequired) log_richTextBox.Invoke(
@@ -457,7 +472,6 @@ namespace PercolationGUI
 			timer.Enabled = false;
 			resume_button.Enabled = true;
 			pause_button.Enabled = false;
-			RefreshGUI(false, true);
 			ini.Write(experimentConfigSection, "number_of_experiments", numberOfExperiments.ToString());
 			ini.Write(experimentConfigSection, "probability_step", decProbabilityStep.ToString());
 			ini.Write(experimentConfigSection, "probability", probability.ToString());
@@ -467,6 +481,8 @@ namespace PercolationGUI
 			ini.Write(experimentConfigSection, "time_passed", timePassed.ToString());
 			ini.Write(experimentConfigSection, "finished", finished_label.Text);
 			ini.Write(experimentConfigSection, "fully_finished", false.ToString());
+			RefreshGUI(false, true);
+			RefreshData(false, true);
 		}
 
 		private void resume_button_Click(object sender, EventArgs e)
@@ -477,13 +493,15 @@ namespace PercolationGUI
 			}
 			catch (Exception exception)
 			{
-				MessageBox.Show(String.Format("{0}\nResuming is unavailable.\nAll settings is set to default.",exception.Message));
+				MessageBox.Show(String.Format("{0}\nResuming is unavailable.\nAll settings is set to default.", exception.Message));
 				log_richTextBox.Text += String.Format("{0}\nResuming is unavailable.\nAll settings is set to default.", exception.Message);
 				return;
 			}
 			resume_button.Enabled = false;
-			decProbabilityMin = probability;
+			start_button.Enabled = false;
+			ShowExperimentalElements(false);
 			pause_button.Enabled = true;
+			decProbabilityMin = probability;
 			finishedExperiments = (ulong)(probability / decProbabilityStep * numberOfExperiments);
 			RefreshGUI(false, true);
 			timer.Enabled = true;
@@ -494,6 +512,11 @@ namespace PercolationGUI
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			RefreshGUI(false, true);
+		}
+
+		private void Percolation_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			pause_button.PerformClick();
 		}
 	}
 }
