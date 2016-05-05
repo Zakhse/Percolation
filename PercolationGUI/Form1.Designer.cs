@@ -1,6 +1,6 @@
 ﻿namespace PercolationGUI
 {
-	partial class Form1
+	partial class Percolation
 	{
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -29,7 +29,9 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Percolation));
 			this.options_groupBox = new System.Windows.Forms.GroupBox();
+			this.finished_label = new System.Windows.Forms.Label();
 			this.resume_button = new System.Windows.Forms.Button();
 			this.pause_button = new System.Windows.Forms.Button();
 			this.numberOfExperiments_label = new System.Windows.Forms.Label();
@@ -49,7 +51,6 @@
 			this.graph_zedGraphControl = new ZedGraph.ZedGraphControl();
 			this.log_tabpage = new System.Windows.Forms.TabPage();
 			this.log_richTextBox = new System.Windows.Forms.RichTextBox();
-			this.finished_label = new System.Windows.Forms.Label();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.options_groupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).BeginInit();
@@ -85,6 +86,19 @@
 			this.options_groupBox.TabIndex = 0;
 			this.options_groupBox.TabStop = false;
 			this.options_groupBox.Text = "Options";
+			// 
+			// finished_label
+			// 
+			this.finished_label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.finished_label.AutoSize = true;
+			this.finished_label.Location = new System.Drawing.Point(57, 118);
+			this.finished_label.Name = "finished_label";
+			this.finished_label.Size = new System.Drawing.Size(54, 13);
+			this.finished_label.TabIndex = 3;
+			this.finished_label.Text = "% finished";
+			this.finished_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// resume_button
 			// 
@@ -365,33 +379,21 @@
 			this.log_richTextBox.WordWrap = false;
 			this.log_richTextBox.TextChanged += new System.EventHandler(this.log_richTextBox_TextChanged);
 			// 
-			// finished_label
-			// 
-			this.finished_label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.finished_label.AutoSize = true;
-			this.finished_label.Location = new System.Drawing.Point(57, 118);
-			this.finished_label.Name = "finished_label";
-			this.finished_label.Size = new System.Drawing.Size(54, 13);
-			this.finished_label.TabIndex = 3;
-			this.finished_label.Text = "% finished";
-			this.finished_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
 			// timer
 			// 
 			this.timer.Interval = 500;
 			this.timer.Tick += new System.EventHandler(this.timer_Tick);
 			// 
-			// Form1
+			// Percolation
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(677, 385);
 			this.Controls.Add(this.options_groupBox);
 			this.Controls.Add(this.pages_tabControl);
-			this.Name = "Form1";
-			this.Text = "Form1";
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Name = "Percolation";
+			this.Text = "Percolation";
 			this.options_groupBox.ResumeLayout(false);
 			this.options_groupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numberOfExperiments_numericUpDown)).EndInit();

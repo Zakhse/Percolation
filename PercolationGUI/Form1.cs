@@ -15,7 +15,7 @@ using ZedGraph;
 
 namespace PercolationGUI
 {
-	public partial class Form1 : Form
+	public partial class Percolation : Form
 	{
 		IniSettings ini = new IniSettings("config.ini");
 		string pathToPoints = "points of graph.xml";
@@ -40,7 +40,7 @@ namespace PercolationGUI
 		LineItem pointsCurve;
 
 		static BackgroundWorker bw = new BackgroundWorker();
-		public Form1()
+		public Percolation()
 		{
 			bw.WorkerSupportsCancellation = true;
 			bw.DoWork += Experiment;
@@ -69,6 +69,7 @@ namespace PercolationGUI
 
 		private void LoadSettings()
 		{
+			log_richTextBox.Text += "Loading settings...\n";
 			try//Settings
 			{
 				if (ini.KeyExists("probability", mainConfigSection))
@@ -101,9 +102,14 @@ namespace PercolationGUI
 			catch (Exception)
 			{
 				MessageBox.Show("config.ini is corrupted!\nAll values is set to default");
+				log_richTextBox.Text += "config.ini is corrupted!\nAll values is set to default\n";
 				Default(false, true, true, true, true, true, true);
 				RefreshData(true, true, true, true, true);
 				RefreshGUI(true);
+			}
+			finally
+			{
+				log_richTextBox.Text += "config.ini loaded correctly.\n";
 			}
 
 			try//Deserialization
@@ -114,44 +120,57 @@ namespace PercolationGUI
 			catch (Exception)
 			{
 				MessageBox.Show("point of graph.xml is corrupted!\nList of points is set to empty");
+				log_richTextBox.Text += "point of graph.xml is corrupted!\nList of points is set to empty\n";
+			}
+			finally
+			{
+				log_richTextBox.Text += " point of graph.xml loaded corectly\n";
 			}
 		}//Loads settings
 
 		private void LoadSettingsToResume()
 		{
-			try//Settings
+			try//SettingsToResume
 			{
 				if (ini.KeyExists("probability", experimentConfigSection))
 					probability_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "probability"));
-				else Default(false, false, true);
+				else throw new FileLoadException("There is no info to resume in config.ini");
 				if (ini.KeyExists("number_of_experiments", experimentConfigSection))
 					numberOfExperiments_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "number_of_experiments"));
-				else Default(false, true);
+				else throw new FileLoadException("There is no info to resume in config.ini");
 				if (ini.KeyExists("height_of_matrix", experimentConfigSection))
 					heightOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "height_of_matrix"));
-				else Default(false, false, false, false, true);
+				else throw new FileLoadException("There is no info to resume in config.ini");
 				if (ini.KeyExists("width_of_matrix", experimentConfigSection))
 					widthOfMatrix_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "width_of_matrix"));
-				else Default(false, false, false, false, false, true);
+				else throw new FileLoadException("There is no info to resume in config.ini");
 				if (ini.KeyExists("probability_step", experimentConfigSection))
 					probabilityStep_numericUpDown.Value = decimal.Parse(ini.ReadINI(experimentConfigSection, "probability_step"));
-				else Default(false, false, false, true);
+				else throw new FileLoadException("There is no info to resume in config.ini");
 				if (ini.KeyExists("experimental_mode", experimentConfigSection))
 					experimentalMode_checkBox.Checked = bool.Parse(ini.ReadINI(experimentConfigSection, "experimental_mode"));
-				else Default(false, false, false, false, false, false, true);
+				else throw new FileLoadException("There is no info to resume in config.ini");
 				if (ini.KeyExists("time_passed", experimentConfigSection))
 					timePassed = TimeSpan.Parse(ini.ReadINI(experimentConfigSection, "time_passed"));
-				else Default(false, false, false, false, false, false, false, true);
+				else throw new FileLoadException("There is no info to resume in config.ini.");
 				RefreshData(true, true, true, true, true);
 				RefreshGUI(true);
+			}
+			catch (FileLoadException e)
+			{
+				Default(false, true, true, true, true, true, false, true);
+				RefreshData(true, true, true, true, true);
+				RefreshGUI(true);
+				throw new Exception(e.Message);
 			}
 			catch (Exception)
 			{
-				MessageBox.Show("config.ini is corrupted!\nAll values is set to default");
-				Default(false, true, true, true, true, true, true);
+				Default(false, true, true, true, true, true,false,true);
 				RefreshData(true, true, true, true, true);
 				RefreshGUI(true);
+				throw new Exception("config.ini is corrupted.");
 			}
+			
 		}//Loads config to resume
 
 		private void SerializePoints()
@@ -375,7 +394,7 @@ namespace PercolationGUI
 						return;
 					}
 				}
-				str = string.Format("Probability: {0}, Trues: {1}, Percolation probability: {2}\n", probability, count, (double)percolationProbability/numberOfExperiments);
+				str = string.Format("Probability: {0}, Trues: {1}, Percolation probability: {2}\n", probability, count, (double)percolationProbability / numberOfExperiments);
 				if (log_richTextBox.InvokeRequired) log_richTextBox.Invoke(
 					new Action<string>((s) =>
 				   {
@@ -434,7 +453,7 @@ namespace PercolationGUI
 		private void pause_button_Click(object sender, EventArgs e)
 		{
 			bw.CancelAsync();
-			log_richTextBox.Text += string.Format("Paused.\tTime passed: {0}\n", timePassed) ;
+			log_richTextBox.Text += string.Format("Paused.\tTime passed: {0}\n", timePassed);
 			timer.Enabled = false;
 			resume_button.Enabled = true;
 			pause_button.Enabled = false;
@@ -452,14 +471,23 @@ namespace PercolationGUI
 
 		private void resume_button_Click(object sender, EventArgs e)
 		{
-			LoadSettingsToResume();
+			try
+			{
+				LoadSettingsToResume();
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(String.Format("{0}\nResuming is unavailable.\nAll settings is set to default.",exception.Message));
+				log_richTextBox.Text += String.Format("{0}\nResuming is unavailable.\nAll settings is set to default.", exception.Message);
+				return;
+			}
 			resume_button.Enabled = false;
 			decProbabilityMin = probability;
 			pause_button.Enabled = true;
 			finishedExperiments = (ulong)(probability / decProbabilityStep * numberOfExperiments);
 			RefreshGUI(false, true);
 			timer.Enabled = true;
-			log_richTextBox.Text += "Resumed.\t";
+			log_richTextBox.Text += "Resumed.\n";
 			bw.RunWorkerAsync();
 		}
 
