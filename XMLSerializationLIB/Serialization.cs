@@ -1,16 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace PercolationGUI
+namespace XMLSerializationLIB
 {
 	public class Serialization
 	{
+		/// <summary>
+		/// Serializes serializable data
+		/// </summary>
+		/// <typeparam name="T">Type of serializable data</typeparam>
+		/// <param name="dataToSerialize">Data to serialize</param>
+		/// <param name="filePath">Path to data</param>
 		public static void Serialize<T>(T dataToSerialize,string filePath)
 		{
 			try
@@ -30,6 +33,12 @@ namespace PercolationGUI
 			}
 		}//Serialize
 
+		/// <summary>
+		/// Deserializes serializable data
+		/// </summary>
+		/// <typeparam name="T">Type of serializable data</typeparam>
+		/// <param name="filePath">Path to data</param>
+		/// <returns>Deserialized data</returns>
 		public static T Deserialize<T>(string filePath)
 		{
 			try

@@ -1,33 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Windows.Forms;
 using System.IO;
 using PercolationLIB;
 using ZedGraph;
+using IniSettingsLIB;
+using XMLSerializationLIB;
+
 
 
 namespace PercolationGUI
 {
 	public partial class Percolation : Form
 	{
+		//for config.ini
 		IniSettings ini = new IniSettings("config.ini");
 		string pathToPoints = "points of graph.xml";
 		string mainConfigSection = "Configuration";
 		string experimentConfigSection = "Last Experiment";
 
+		//variables for both modes (experimental and non-experimental)
 		bool experimentalMode;
 		uint heightOfMatrix;
 		uint widthOfMatrix;
 		decimal probability;
 
-		//for experimental mode
+		//variables only for experimental mode
 		decimal decProbabilityMin = 0;
 		decimal decProbabilityMax = 1;
 		decimal decProbabilityStep;
@@ -36,19 +35,24 @@ namespace PercolationGUI
 		TimeSpan timePassed = TimeSpan.Zero;
 		ulong finishedExperiments = 0;
 
+		//for graph
 		GraphPane pane;
 		LineItem pointsCurve;
 
 		static BackgroundWorker bw = new BackgroundWorker();
+
 		public Percolation()
 		{
+			//for BackgroundWorker
 			bw.WorkerSupportsCancellation = true;
 			bw.DoWork += Experiment;
 			bw.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
 
 			InitializeComponent();
+
 			LoadSettings();
 
+			//Code for graph's visualization
 			pane = graph_zedGraphControl.GraphPane;
 			pane.Title.Text = "Graph";
 			pane.XAxis.Scale.Min = 0.0;
@@ -64,7 +68,6 @@ namespace PercolationGUI
 			pointsCurve.Symbol.Fill.Type = FillType.Solid;
 			pointsCurve.Symbol.Size = 5;
 			pointsCurve.Label.IsVisible = false;
-			//Code for graph's visualization
 		}//Form1
 
 		private void LoadSettings()
@@ -176,7 +179,7 @@ namespace PercolationGUI
 		private void SerializePoints()
 		{
 			Serialization.Serialize(points, pathToPoints);
-		}
+		}//Serializes points of graph to pathToPoints
 
 		private void Default(bool points = false, bool numberOfExperiments = false,
 			bool probability = false, bool probabilityStep = false,
@@ -206,7 +209,7 @@ namespace PercolationGUI
 				this.timePassed = TimeSpan.Zero;
 			RefreshData(true, true, true, true, true);
 			RefreshGUI(true);
-		}
+		}//set chosen parameters to defaul
 
 		private void RefreshGUI(bool elements = false, bool procents = false)
 		{
@@ -249,20 +252,6 @@ namespace PercolationGUI
 			}
 		}//Refreshes GUI elements
 
-		/// <summary>
-		/// Enables or disables elements, which tunes probability step, size of matrix,
-		/// experimental mode, number of experiments per probability
-		/// </summary>
-		/// <param name="key">True to enable and false to disable.</param>
-		private void ShowExperimentalElements(bool key)
-		{
-			probabilityStep_numericUpDown.Enabled = key;
-			heightOfMatrix_numericUpDown.Enabled = key;
-			widthOfMatrix_numericUpDown.Enabled = key;
-			numberOfExperiments_numericUpDown.Enabled = key;
-			experimentalMode_checkBox.Enabled = key;
-		}
-
 		private void RefreshData(bool experiment = false, bool probability = false,
 			bool size = false, bool probabilityStep = false,
 			bool numberOfExperiments = false)
@@ -288,6 +277,20 @@ namespace PercolationGUI
 			{
 				this.numberOfExperiments = (int)numberOfExperiments_numericUpDown.Value;
 			}
+		}//Refreshes chosen parameters according to controls
+
+		/// <summary>
+		/// Enables or disables elements, which tunes probability step, size of matrix,
+		/// experimental mode, number of experiments per probability
+		/// </summary>
+		/// <param name="key">True to enable and false to disable.</param>
+		private void ShowExperimentalElements(bool key)
+		{
+			probabilityStep_numericUpDown.Enabled = key;
+			heightOfMatrix_numericUpDown.Enabled = key;
+			widthOfMatrix_numericUpDown.Enabled = key;
+			numberOfExperiments_numericUpDown.Enabled = key;
+			experimentalMode_checkBox.Enabled = key;
 		}
 
 		/// <summary>
@@ -463,7 +466,7 @@ namespace PercolationGUI
 			{
 				pane.YAxis.Scale.Max = 1.0;
 			}
-		}
+		}//Disallows to go beyond the needed area of the graph 
 
 		private void pause_button_Click(object sender, EventArgs e)
 		{
@@ -512,11 +515,12 @@ namespace PercolationGUI
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			RefreshGUI(false, true);
-		}
+		}//Refreshes finished procents of work
 
 		private void Percolation_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			pause_button.PerformClick();
-		}
+			if (pause_button.Enabled == true)
+				pause_button.PerformClick();
+		}//Pauses experiment when before close the app
 	}
 }

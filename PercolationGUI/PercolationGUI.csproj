@@ -56,10 +56,8 @@
     <Compile Include="Percolation.Designer.cs">
       <DependentUpon>Percolation.cs</DependentUpon>
     </Compile>
-    <Compile Include="IniSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization.cs" />
     <EmbeddedResource Include="Percolation.resx">
       <DependentUpon>Percolation.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,9 +84,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IniSettingsLIB\IniSettingsLIB.csproj">
+      <Project>{0b82aee7-e33f-4d9e-bf8e-cfce4c8e13fe}</Project>
+      <Name>IniSettingsLIB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PercolationLIB\PercolationLIB.csproj">
       <Project>{befd45aa-a33c-4776-b21e-67209760413a}</Project>
       <Name>PercolationLIB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XMLSerializationLIB\XMLSerializationLIB.csproj">
+      <Project>{7f0958d0-c942-46e9-a052-e1b2d7a77c11}</Project>
+      <Name>XMLSerializationLIB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

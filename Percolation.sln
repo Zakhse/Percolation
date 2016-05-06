@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PercolationLIB", "Percolati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PercolationGUI", "PercolationGUI\PercolationGUI.csproj", "{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IniSettingsLIB", "IniSettingsLIB\IniSettingsLIB.csproj", "{0B82AEE7-E33F-4D9E-BF8E-CFCE4C8E13FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLSerializationLIB", "XMLSerializationLIB\XMLSerializationLIB.csproj", "{7F0958D0-C942-46E9-A052-E1B2D7A77C11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CE69294-2D36-4E7F-9B2A-FDE6053608B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B82AEE7-E33F-4D9E-BF8E-CFCE4C8E13FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B82AEE7-E33F-4D9E-BF8E-CFCE4C8E13FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B82AEE7-E33F-4D9E-BF8E-CFCE4C8E13FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B82AEE7-E33F-4D9E-BF8E-CFCE4C8E13FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F0958D0-C942-46E9-A052-E1B2D7A77C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F0958D0-C942-46E9-A052-E1B2D7A77C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F0958D0-C942-46E9-A052-E1B2D7A77C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F0958D0-C942-46E9-A052-E1B2D7A77C11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

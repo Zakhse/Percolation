@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
 
-namespace PercolationGUI
+namespace IniSettingsLIB
 {
 	public class IniSettings
 	{
